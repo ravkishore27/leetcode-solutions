@@ -1,0 +1,50 @@
+Problem:
+https://leetcode.com/problems/count-vowel-substrings-of-a-string/
+
+===================================================================
+
+
+class Solution:
+    def countVowelSubstrings(self, word: str) -> int:
+        
+        def isVowelSubstring(word, i, j):
+            if 'a' in word[i:j+1] and 'e' in word[i:j+1] and 'i' in word[i:j+1] and 'o' in word[i:j+1] and 'u' in word[i:j+1]:
+                return True
+            return False
+        
+        def dfs(i, j , res, word, visited):
+            # print(i,j, j - i + 1, res, visited)
+            if j - i + 1 >= 5:
+                if visited[i][j] == 1:
+                    return
+                
+                visited[i][j] = 1
+
+                if isVowelSubstring(word, i, j) :
+                    res[0] += 1
+                else:
+                    return
+                # print(i,j, j - i + 1,res, visited)
+                dfs(i+1, j, res, word, visited)
+                dfs(i, j-1, res, word, visited)
+        res = [0] 
+        i = 0
+        visited = [[0 for i in range(len(word))] for j in range(len(word))]
+        # print(visited)
+        while (i < len(word)):
+            if word[i] in ['a', 'e', 'i', 'o', 'u']:
+                for j in range(i + 1, len(word)):
+                    if word[j] not in ['a', 'e', 'i', 'o', 'u'] or j == len(word) - 1:
+                        if j == len(word)- 1 and word[j] in ['a', 'e', 'i', 'o', 'u']:
+                            j += 1
+                        dfs(i, j - 1, res, word, visited)
+                        i = j - 1
+                        break
+            i +=1
+        return res[0]
+        
+===================================================================
+
+Time complexity = O(n^2)
+Space complexity = O(n^2)
+
