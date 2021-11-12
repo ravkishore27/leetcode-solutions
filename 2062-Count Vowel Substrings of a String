@@ -3,6 +3,23 @@ https://leetcode.com/problems/count-vowel-substrings-of-a-string/
 
 ===================================================================
 
+Explanation
+
+1. increase "i" till you find a vowel.
+2. increase "j"="i+1" till you find a non-vowel
+3. i --> (j-1) contains only vowels.
+4. Use dfs to traverse all substring combinations and check if substring contains all vowels.
+5. visited is used to ensure we don't repeat our dfs.
+6. if the substring is less than 5 chars, then all vowels cannot be present.
+7. jump i to j index and repeat from step 1
+8. Stop at the end of len(word)
+
+edge case:
+1. If the last character is vowel.
+2. If the last character is not vowel.
+
+===================================================================
+
 
 class Solution:
     def countVowelSubstrings(self, word: str) -> int:
