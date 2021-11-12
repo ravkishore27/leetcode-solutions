@@ -1,0 +1,41 @@
+Problem:
+https://leetcode.com/problems/vowels-of-all-substrings/
+
+===================================================================
+
+Explanation
+
+1. Figure out how many contiguous substrings contain the current index
+2. This can be caculated via (n-i) * (i+1)
+3. if the current letter is vowel then calculate and add to result.
+4. Return result.
+
+for example: Letter "a"  has "(5*4)=20" number of substrings.
+
+[ . . . a  m  b z a ] -> 1 substring {a}
+[ . . . a --> b z a ] -> 2 substrings {a, am}
+[ . . . a ----> z a ] -> 3 substrings {a, am, amb}
+[ . . . a ------> a ] -> 4 substrings {a, am, amb, ambz}
+[ . . . a --------> ] -> 5 * 1 substrings {a, am, amb, ambz, ambza}
+[ . . b a --------> ] -> 5 * 2 substrings {b} * {a, am, amb, ambz, ambza}
+[ . c b a --------> ] -> 5 * 3 substrings {c, b} * {a, am, amb, ambz, ambza}
+[ a c b a --------> ] -> 5 * 4 substrings {a, c, b} * {a, am, amb, ambz, ambza}
+
+-----> is the contiguous substring
+
+===================================================================
+
+class Solution:
+    def countVowels(self, word: str) -> int:
+        res = 0
+        n = len(word)
+        for i in range(n):
+            if word[i] in ['a','e','i','o','u']:
+                res += ( (n - i) * (i+1))
+        return res
+        
+        
+===================================================================
+
+Time complexity = O(n)
+Space complexity = O(1)
