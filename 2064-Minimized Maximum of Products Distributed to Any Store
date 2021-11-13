@@ -1,0 +1,58 @@
+# Incorrect solution. Will update the correct one soon.
+
+class Solution:
+    def minimizedMaximum(self, n: int, quantities: List[int]) -> int:
+        
+        # max heap; negative numbers conversion for max heap usage using min-heap.
+        quantities_neg = [-1 * quantities[i] for i in range(len(quantities))]
+        
+        # heapify
+        heap = quantities_neg
+        heapq.heapify(heap)
+        
+        # create a mapper and each product gets atleast one store.
+        # mapper { initial_quantity : [initial_quantity, number_of_stores]}
+        mapper = {}
+        for q in quantities:
+            if q not in mapper:
+                mapper[q] = []
+            mapper[q].append((q,1))
+        
+        # calculate the remaining stores
+        remaining_stores = n - len(quantities)
+        
+        # print(remaining_stores//len(quantities))
+        
+        # Current maximum product in heap       
+        curr_max_product = -1 * heapq.heappop(heap)
+        
+        while(curr_max_product > 1 and remaining_stores > 0):
+            
+            # print("beg", remaining_stores, curr_max_product, heap, mapper)
+            
+            # calculate the x number of stores that can be added to each product from remaining stores.
+            min_stores_per_product = remaining_stores // len(quantities) | 1
+            
+            # print(min_stores_per_product)
+            
+            # calculate the new max value for current product when 1 store is added
+            curr_product_quantity, curr_product_stores  = mapper[curr_max_product].pop(0)
+            new_product_stores = curr_product_stores + min_stores_per_product
+            new_calculated_product = math.ceil(curr_product_quantity / new_product_stores)
+            
+            # update mapper
+            if new_calculated_product not in mapper:
+                mapper[new_calculated_product] = []
+            mapper[new_calculated_product].append((curr_product_quantity, new_product_stores))
+            
+            # update heap
+            heapq.heappush(heap, -1*new_calculated_product)
+            
+            # print("end", remaining_stores, curr_max_product, heap, mapper)
+            
+            # next current max product in heap
+            curr_max_product = -1 * heapq.heappop(heap)
+                        
+            remaining_stores -= min_stores_per_product
+        
+        return curr_max_product
