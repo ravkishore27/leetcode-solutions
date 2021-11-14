@@ -56,3 +56,11 @@ class Solution:
             remaining_stores -= min_stores_per_product
         
         return curr_max_product
+        
+        
+        ==================
+        Update:
+        
+        Need to undersand binary search solution.
+        
+        Tried with max-heap for mapper instead of plain list. Still getting wrong solution.
