@@ -1,4 +1,42 @@
-# Incorrect solution. Will update the correct one soon.
+Problem:
+https://leetcode.com/problems/count-vowel-substrings-of-a-string/
+
+===================================================================
+
+Explanation
+
+Binary Solution.
+Generally speaking, for a given m tasks and n ppl/containers.
+You can find x such that 1<=x<=m<=n.
+Also this x is the min number of groupings of ppl/containers for the given m tasks.
+
+===================================================================
+
+class Solution:
+    def minimizedMaximum(self, n: int, quantities: List[int]) -> int:
+        
+        left, right = 1 , max(quantities)
+        
+        while left < right:
+            
+            mid = (left + right) // 2
+            
+            if (sum(math.ceil(quantities[i]/mid) for i in range(len(quantities)))) > n:
+                
+                left  = mid + 1
+            
+            else:
+                right = mid
+                
+        return left
+
+Time complexity = O(nlog100000)
+Space complexity = O(1)
+
+===================================================================
+The below works but very slow and may not execute for large inputs.
+heap solution.
+Time complexity = O(nlogn)
 
 class Solution:
     def minimizedMaximum(self, n: int, quantities: List[int]) -> int:
@@ -30,8 +68,8 @@ class Solution:
             
             # print("beg", remaining_stores, curr_max_product, heap, mapper)
             
-            # calculate the x number of stores that can be added to each product from remaining stores.
-            min_stores_per_product = remaining_stores // len(quantities) | 1
+            # default is 1
+            min_stores_per_product = 1
             
             # print(min_stores_per_product)
             
@@ -56,11 +94,3 @@ class Solution:
             remaining_stores -= min_stores_per_product
         
         return curr_max_product
-        
-        
-        ==================
-        Update:
-        
-        Need to undersand binary search solution.
-        
-        Tried with max-heap for mapper instead of plain list. Still getting wrong solution.
