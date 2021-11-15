@@ -1,0 +1,40 @@
+Problem:
+https://leetcode.com/problems/check-whether-two-strings-are-almost-equivalent/
+
+===================================================================
+
+Explanation
+
+Both words are parsed.
+First word is parsed and creates the map {letter : frequency}
+Second word is parsed and creates/modifies map elements by decreasing frequency.
+
+Finally we loop the map and see if all values are between -3 to 3(True). Else False.
+
+===================================================================
+class Solution:
+    def checkAlmostEquivalent(self, word1: str, word2: str) -> bool:
+        
+        dp = {}
+        
+        for letter in word1:
+            if letter not in dp:
+                dp[letter] = 0
+            dp[letter] += 1
+            
+        for letter in word2:
+            if letter not in dp:
+                dp [letter] = 0
+            dp[letter] -= 1
+            
+            
+        for letter in dp:
+            if not -3 <= dp[letter] <= 3:
+                return False
+        
+        return True      
+
+
+Time complexity = O(n)
+Space complexity = O(n)
+===================================================================
