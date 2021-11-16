@@ -1,0 +1,58 @@
+Problem:
+https://leetcode.com/problems/walking-robot-simulation-ii
+
+===================================================================
+
+Explanation  (WIP)
+
+===================================================================
+
+class Robot:
+
+    def __init__(self, width: int, height: int):
+        self.x = width
+        self.y = height
+        self.curr_pos = [0,0]
+        self.cardinal_directions = {0:"East", 1:"North", 2:"West", 3:"South"}
+        self.curr_direction = 0
+    
+    def antiClockwiseRotate(self):
+        self.curr_direction = (self.curr_direction + 1) % 4
+    
+    def updateCurrPos(self, x, y):
+        self.curr_pos[0], self.curr_pos[1] = x, y
+    
+    def isValidMove(self, current_x, current_y):
+        if self.getDir() == self.cardinal_directions[0]:
+            current_x += 1
+        if self.getDir() == self.cardinal_directions[1]:
+            current_y += 1
+        if self.getDir() == self.cardinal_directions[2]:
+            current_x -= 1
+        if self.getDir() == self.cardinal_directions[3]:
+            current_y -= 1
+        if 0 <= current_x < self.x and 0 <= current_y  < self.y:
+            self.updateCurrPos(current_x, current_y)
+            return True
+        return False
+    
+    def move(self, num: int) -> None:
+        # sub = 5
+        # if self.getPos() in [[0, 0], [self.x - 1, 0], [self.x - 1, self.y - 1], [0, self.y - 1]]:
+            # sub -= 1
+        num = num % ((2 * self.x) + (2 * self.y) - sub)
+        while num > 0:
+            while not self.isValidMove(self.curr_pos[0], self.curr_pos[1]):
+                self.antiClockwiseRotate()
+            num -= 1
+
+    def getPos(self) -> List[int]:
+        return self.curr_pos
+
+    def getDir(self) -> str:
+        return self.cardinal_directions[self.curr_direction]
+        
+===================================================================
+
+Time complexity = O(n^2)
+Space complexity = O(n^2)
