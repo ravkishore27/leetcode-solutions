@@ -3,7 +3,16 @@ https://leetcode.com/problems/walking-robot-simulation-ii
 
 ===================================================================
 
-Explanation  (WIP)
+Explanation:
+
+Worked it as a Design problem.
+But failed cases made me think to optimize.
+
+So I calculate all grids which is the outer edge of the field.
+total_cells  : 2*x + 2*y - 4;
+
+Now the given move steps is mod by the above formula. num % total_cells
+So I do only one rotation at most for each move command.
 
 ===================================================================
 
@@ -37,10 +46,9 @@ class Robot:
         return False
     
     def move(self, num: int) -> None:
-        # sub = 5
-        # if self.getPos() in [[0, 0], [self.x - 1, 0], [self.x - 1, self.y - 1], [0, self.y - 1]]:
-            # sub -= 1
-        num = num % ((2 * self.x) + (2 * self.y) - sub)
+        num = num % ((2 * self.x) + (2 * self.y) - 4)
+        if self.getDir() == self.cardinal_directions[0] and self.getPos() == [0,0]:
+            self.curr_direction = 3
         while num > 0:
             while not self.isValidMove(self.curr_pos[0], self.curr_pos[1]):
                 self.antiClockwiseRotate()
@@ -53,6 +61,10 @@ class Robot:
         return self.cardinal_directions[self.curr_direction]
         
 ===================================================================
-
-Time complexity = O(n^2)
-Space complexity = O(n^2)
+Constraints:
+2 <= width, height <= 100
+1 <= num <= 105
+At most 10^4 calls in total will be made to move, getPos, and getDir
+===================================================================
+Time complexity = O((2*100 + 2*100 -4) * (10^4)) =~ O(1000000) =~ 10^6
+Space complexity = O(1)
