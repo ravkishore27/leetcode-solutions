@@ -40,5 +40,5 @@ Constraints
 items[i].length == 2
 1 <= price(i), beauty(i), queries[j] <= 10^9
 ===================================================================
-Time complexity = O(n) + O(n) =~ O(n)
+Time complexity = O(nlogn + qlogn) =~ sorting+bisecting
 Space complexity = O(2n)
