@@ -1,0 +1,14 @@
+Incomplete. Will update soon.
+
+class Solution:
+    def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
+        
+        n = len(tickets)
+        res = 0
+        
+        for i in range(n):
+            if tickets[i] >= tickets[k - 1]:
+                res += tickets[k - 1]
+            else:
+                res += tickets[i]
+        return res
