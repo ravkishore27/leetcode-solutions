@@ -1,14 +1,33 @@
-Incomplete. Will update soon.
+Problem:
+https://leetcode.com/problems/time-needed-to-buy-tickets/
+
+===================================================================
+
+Explanation
+1. add min(tickets[k], tickets[i]) as seconds because maximum number \
+of tickets that can be bought are only k-th index.
+2. Also any ppl buying tickets after the k-th index person, will only buy min(tickets[k-1], tickets[i]) - 1
+3. For this i subtract one because i already added before.
+
+===================================================================
 
 class Solution:
     def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
         
         n = len(tickets)
+        
         res = 0
         
         for i in range(n):
-            if tickets[i] >= tickets[k - 1]:
-                res += tickets[k - 1]
-            else:
-                res += tickets[i]
+            
+            res += min(tickets[k], tickets[i])
+            
+            if i > k and tickets[i] >= tickets[k]:
+                res -= 1
+                
         return res
+        
+===================================================================
+
+Time complexity = O(n)
+Space complexity = O(1)
