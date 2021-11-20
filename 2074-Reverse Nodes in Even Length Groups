@@ -1,0 +1,42 @@
+
+Incomplete solution
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseEvenLengthGroups(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        
+        def recursion(prevNode, currentNode, grp):
+            
+            if grp == 0 or currentNode == None:
+                return prevNode
+            print(prevNode.val, currentNode.val)
+            lastNode = recursion(currentNode, currentNode.next, grp - 1)
+                
+            temp = currentNode.next
+            currentNode.next = prevNode
+            prevNode.next = temp
+            
+            return lastNode
+        
+        prevNode, currNode = head, head.next
+        
+        if currNode == None:
+            return prevNode
+
+        i = 2
+        while currNode:
+            lastNode = recursion(prevNode, currNode, i)
+            
+            prevNode.next = lastNode
+            
+            for k in range(i):
+                if currNode != None:
+                    prevNode = currNode
+                    currNode = currNode.next
+            i += 1
+            
+        return head
