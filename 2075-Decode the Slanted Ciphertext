@@ -1,0 +1,35 @@
+Problem:
+https://leetcode.com/problems/decode-the-slanted-ciphertext/
+
+===================================================================
+
+Explanation
+1. for each 0th element in a column.
+2. Move diagonally and add to res.
+3. to find the next diagonal index = (i*cols) + j
+
+===================================================================
+
+class Solution:
+    def decodeCiphertext(self, encodedText: str, rows: int) -> str:
+        
+        n = len(encodedText)
+        
+        cols = n//rows
+        
+        res = ""
+        
+        for k in range(cols):
+            i = 0
+            j = k
+            while i < rows and j < cols:
+                index = (i*cols) + j
+                res += encodedText[index]
+                i += 1
+                j += 1
+                
+        return res.rstrip()
+===================================================================
+
+Time complexity = O(n+trailing spaces)
+Space complexity = O(1)
