@@ -55,4 +55,4 @@ class Solution:
 ===================================================================
 
 Time complexity = O(n)
-Space complexity = O(n)
+Space complexity = O(n) or O(3n) worst case scenario
