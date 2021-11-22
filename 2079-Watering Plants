@@ -1,0 +1,39 @@
+Problem:
+https://leetcode.com/problems/watering-plants/
+
+===================================================================
+
+Explanation
+
+1. keep moving forward on each i of plants.
+2. add a step if jug has enough water.
+3. Else make the trip back and refill jug. Add the steps to result.
+
+===================================================================
+
+class Solution:
+    def wateringPlants(self, plants: List[int], capacity: int) -> int:
+        
+        n = len(plants)
+        
+        jug = capacity
+        
+        res = 0
+        
+        for i in range(n):
+            
+            if jug < plants[i]:
+                res = res + i + i + 1
+                jug = capacity
+            else:
+                res += 1
+            
+            jug -= plants[i]
+            # print(res)
+            
+        return res
+        
+===================================================================
+
+Time complexity = O(n)
+Space complexity = O(1)
