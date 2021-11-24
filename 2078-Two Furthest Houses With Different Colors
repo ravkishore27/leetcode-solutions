@@ -7,7 +7,7 @@ Explanation
 
 1. Find the left most house that is different color than the n-th house.
 2. Find the right most house that is different color than the 0-th house.
-3. return the max difference from the 0 --to--> right, left --to--> n 
+3. return the max difference from the 0 --to--> right, left --to--> n.
 
 ===================================================================
 
