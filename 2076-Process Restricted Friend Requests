@@ -1,0 +1,49 @@
+Problem:
+https://leetcode.com/problems/process-restricted-friend-requests/
+
+===================================================================
+
+Explanation
+
+(Union Find); Can be also done by UnionFind By Rank.
+
+===================================================================
+
+class Solution:
+    def friendRequests(self, n: int, restrictions: List[List[int]], requests: List[List[int]]) -> List[bool]:
+        
+        parents = [ i for i in range(n)]
+        
+        def find(node):
+            if parents[node] != node:
+                parents[node] = find(parents[node])
+            return parents[node]
+        
+        
+        res = []
+        
+        for req in requests:
+            p1, p2 = find(req[0]), find(req[1])
+            
+            friends = True
+            if p1 != p2:
+                for restriction in restrictions:
+
+                    r1, r2 = find(restriction[0]), find(restriction[1])
+
+                    if (p1,p2) == (r1, r2) or (p1,p2) == (r2, r1):
+                        friends = False
+                        break
+            
+            if friends:
+                parents[p2] = p1
+            
+            res.append(friends)
+        
+        return res
+        
+===================================================================
+
+Time complexity = O(requests*restrictions)
+Space complexity = O(n)
+
