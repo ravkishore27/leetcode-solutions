@@ -1,0 +1,34 @@
+Problem:
+https://leetcode.com/problems/two-sum/
+
+===================================================================
+Constraints
+
+2 <= nums.length <= 104
+-109 <= nums[i] <= 109
+-109 <= target <= 109
+Only one valid answer exists.
+
+===================================================================
+Explanation
+
+1. Have a dictonary for past seen numbers
+2. When traversing the numbers; check if target-current_number exists in dict
+3. If no, add it to the dict
+4. If yes, return current number and target-number in the dict as result.
+
+===================================================================
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        
+        dp =  defaultdict(int)
+        for i, num in enumerate(nums):
+            
+            if (target-num) in dp:
+                return i, dp[target-num]
+            
+            if num not in dp :
+                dp[num] = i
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
