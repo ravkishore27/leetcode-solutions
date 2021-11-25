@@ -1,0 +1,86 @@
+Problem:
+https://leetcode.com/problems/add-two-numbers/
+
+===================================================================
+Constraints
+
+The number of nodes in each linked list is in the range [1, 100].
+0 <= Node.val <= 9
+It is guaranteed that the list represents a number that does not have leading zeros.
+
+===================================================================
+Explanation
+
+
+===================================================================
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        
+        res = head = None
+        
+        l1_stack = []
+        l2_stack = []
+        
+        while l1:
+            l1_stack.append(l1.val)
+            l1 = l1.next
+            
+        while l2:
+            l2_stack.append(l2.val)
+            l2 = l2.next
+        
+        carry = 0
+        while l1_stack and l2_stack:
+            
+            curr_l1 = l1_stack.pop(0)
+            curr_l2 = l2_stack.pop(0)
+            
+            summ = curr_l1 + curr_l2 + carry
+            
+            ones = summ % 10
+            
+            carry = summ // 10
+            
+            if not res:
+                head = res = ListNode(ones, None)
+            else:
+                res.next = ListNode(ones, None)
+                res = res.next
+            
+        while l1_stack:
+            curr_l1 = l1_stack.pop(0)
+            summ = curr_l1 + carry
+            ones = summ % 10
+            carry = summ // 10
+            if not res:
+                head = res = ListNode(ones, None)
+            else:
+                res.next = ListNode(ones, None)
+                res = res.next
+            
+        while l2_stack:
+            curr_l2 = l2_stack.pop(0)
+            summ =  curr_l2 + carry
+            ones = summ % 10
+            carry = summ // 10
+            if not res:
+                head = res = ListNode(ones, None)
+            else:
+                res.next = ListNode(ones, None)
+                res = res.next
+            
+        if carry:
+            if not res:
+                head = res = ListNode(carry, None)
+            else:
+                res.next = ListNode(carry, None)
+                res = res.next
+        return head
+===================================================================
+Time complexity = O(max(n,m))
+Space complexity = O(n+m)
