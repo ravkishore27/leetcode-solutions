@@ -10,7 +10,9 @@ words1[i] and words2[j] consists only of lowercase English letters.
 
 ===================================================================
 Explanation
-
+1. create a dict {"word" : [count in first list , count in second list]}
+2. Update the dict by traversing both list1 and list2
+3. if the dictionary has [1,1] for a given word then increase result.
 
 ===================================================================
 class Solution:
