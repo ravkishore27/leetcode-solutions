@@ -9,10 +9,31 @@ s consists of English letters, digits, symbols and spaces.
 
 ===================================================================
 Explanation
+1. Create a dict {"letter" : index_found_at}
+2. last_rep_index variable has last repeating char(any) index.
+3. For each letter, check if it has already been found.
+4. If yes, update the last_rep_index to the already found index.
+5. Update res each step of loop.
 
+Note: Since defaultdict uses 0 as default. I have caculated using i+1 for res and index values.
 
 ===================================================================
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        
+        n = len(s)
+        res = 0
+        
+        last_rep_index = 0
 
+        dp = defaultdict(int)
+        for i in range(n):
+            if dp[s[i]] != 0:
+                last_rep_index = max(dp[s[i]], last_rep_index)
+            dp[s[i]] = i + 1
+            res = max(res, (i+1) - last_rep_index)
+        
+        return res
 ===================================================================
 Time complexity = O(n)
 Space complexity = O(n)
