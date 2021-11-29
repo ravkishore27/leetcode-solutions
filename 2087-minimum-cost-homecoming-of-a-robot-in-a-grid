@@ -1,0 +1,48 @@
+Problem:
+https://leetcode.com/problems/minimum-cost-homecoming-of-a-robot-in-a-grid/
+
+===================================================================
+Constraints
+
+m == rowCosts.length
+n == colCosts.length
+1 <= m, n <= 105
+0 <= rowCosts[r], colCosts[c] <= 104
+startPos.length == 2
+homePos.length == 2
+0 <= startrow, homerow < m
+0 <= startcol, homecol < n
+
+===================================================================
+Explanation
+1. Since costs are only added when moving vertical or horizontal.
+2. The min cost is the shortest path.
+3. From startPos(x) ---- up or down ---> homePos(x)
+4. From startPos(y) ----- left or right ----> homePos(y)
+
+Note: We would need to add or subtract 1 by moving up/down or left/right.
+( (xe - xs) // abs(xe-xs)) or ( (ye - ys) // abs(ye-ys))
+
+===================================================================
+class Solution:
+    def minCost(self, startPos: List[int], homePos: List[int], rowCosts: List[int], colCosts: List[int]) -> int:
+        
+        xs, ys = startPos[0], startPos[1]
+        
+        xe, ye = homePos[0], homePos[1]
+        
+        res = 0
+        
+        while xs != xe:
+            xs += ( (xe - xs) // abs(xe-xs))
+            res += rowCosts[xs]
+            
+        
+        while ys != ye:
+            ys += ( (ye - ys) // abs(ye-ys))
+            res += colCosts[ys]
+            
+        return res
+===================================================================
+Time complexity = O(n + m)
+Space complexity = O(1)
