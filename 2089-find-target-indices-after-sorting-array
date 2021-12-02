@@ -1,0 +1,35 @@
+Problem:
+https://leetcode.com/problems/find-target-indices-after-sorting-array/
+
+===================================================================
+
+Explanation
+
+1. count the numbers less than target
+2. count the frequency of the target
+3. res = [.... count of less numbers .. frequency of target ....]
+=> i+less_num for freq_target.
+
+===================================================================
+
+class Solution:
+    def targetIndices(self, nums: List[int], target: int) -> List[int]:
+        
+        less_num = 0
+        
+        freq_target = 0
+        
+        for num in nums:
+            
+            if num < target:
+                less_num += 1
+                
+            if num == target:
+                freq_target += 1
+                
+        return (i+less_num for i in range(freq_target))
+
+===================================================================
+
+Time complexity = O(n)
+Space complexity = O(1)
