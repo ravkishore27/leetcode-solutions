@@ -10,7 +10,11 @@ n == nums.length
 
 ===================================================================
 Explanation
-1. Explanation pending....
+1. res = [] 
+2. append -1 for first k-1 elements
+3. for every element start from k. Calculate the sum and append.
+4. append after the loop only if the n is odd.  < x elements, mid element, x elements>
+5. append -1 for last k-1 elements
 
 ===================================================================
 class Solution:
