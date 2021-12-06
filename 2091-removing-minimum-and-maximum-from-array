@@ -1,0 +1,52 @@
+Problem:
+https://leetcode.com/problems/removing-minimum-and-maximum-from-array/
+
+===================================================================
+Constraints
+
+1 <= nums.length <= 105
+-105 <= nums[i] <= 105
+The integers in nums are distinct.
+
+===================================================================
+Explanation
+
+1. Edge cases for n==0 or n == 1 (return 1)
+2. find the index of the largest num and smallest num -> i_min and i_max
+3. return the min( if elements were removed only from left, if elements were removed only from right, \
+   if elements for i_min were removed from left and elements for i_max removed from right, \
+   if elemenets for i_max were removed from right and elements for i_min removed from right)
+   
+   ==> min(max(i_max+1, i_min+1), max(n-i_max, n-i_min), (i_max+1+(n-i_min)), (i_min+1+(n-i_max)))
+
+===================================================================
+class Solution:
+    def minimumDeletions(self, nums: List[int]) -> int:
+        
+        if not nums:
+            return 0
+        
+        n = len(nums)
+        
+        if n == 1:
+            return 1
+        
+        i_max, i_min = 0, 0
+        
+        num_max, num_min = -sys.maxsize, sys.maxsize
+        
+        for i in range(n):
+            
+            if nums[i] < num_min:
+                num_min = nums[i]
+                i_min = i
+                
+            if nums[i] > num_max:
+                num_max = nums[i]
+                i_max = i
+                
+        print(n, i_min, i_max)
+        return min(max(i_max+1, i_min+1), max(n-i_max, n-i_min), (i_max+1+(n-i_min)), (i_min+1+(n-i_max)))
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
