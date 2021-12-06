@@ -1,0 +1,43 @@
+Problem:
+https://leetcode.com/problems/k-radius-subarray-averages/
+
+===================================================================
+Constraints
+
+n == nums.length
+1 <= n <= 105
+0 <= nums[i], k <= 105
+
+===================================================================
+Explanation
+1. Explanation pending....
+
+===================================================================
+class Solution:
+    def getAverages(self, nums: List[int], k: int) -> List[int]:
+        
+        n = len(nums)
+
+        res = []
+        
+        for i in range(min(k,n)):
+            res.append(-1)
+        
+        if k > (n // 2):
+            return [-1]*n
+        
+        d = k*2 + 1
+        s = sum(nums[0:d])
+        for i in range(k, n-k-1):
+            res.append(s//d)
+            s = s - nums[i-k] + nums[i+k+1]
+        if k*2 != n:
+            res.append(s // d)
+            
+        for i in range(k):
+            res.append(-1)
+        
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
