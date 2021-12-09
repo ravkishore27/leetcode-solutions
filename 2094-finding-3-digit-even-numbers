@@ -1,0 +1,48 @@
+Problem:
+https://leetcode.com/problems/finding-3-digit-even-numbers/
+
+===================================================================
+Constraints
+
+3 <= digits.length <= 100
+0 <= digits[i] <= 9
+
+===================================================================
+Explanation
+1. Three loops.
+2. Ensure zero is not in hundred place.
+3. Using dictionary keep a track of freq of digits.
+4. Esnure ones place digit is even.
+
+===================================================================
+class Solution:
+    def findEvenNumbers(self, digits: List[int]) -> List[int]:
+        
+        d = dict()
+        
+        n = len(digits)
+        
+        for i in range(n):
+            if digits[i] not in d:
+                d[digits[i]] = 0
+            d[digits[i]] += 1
+        m = len(d) 
+        res = set()
+        for hun in d:
+            if hun == 0:
+                continue
+            d[hun] -= 1
+            for ten in d:
+                if d[ten] <= 0:
+                    continue
+                d[ten] -= 1
+                for ones in d:
+                    if d[ones] <= 0 or ones%2 == 1:
+                        continue
+                    res.add(hun*100 + ten*10 + ones)
+                d[ten] += 1
+            d[hun] += 1
+        return sorted(res)
+===================================================================
+Time complexity = O(n^3) but max(n) == 9 (0-9) ~= O(9^3)
+Space complexity = O(n)
