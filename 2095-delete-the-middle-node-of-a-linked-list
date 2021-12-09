@@ -1,0 +1,49 @@
+Problem:
+https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/
+
+===================================================================
+Constraints
+
+The number of nodes in the list is in the range [1, 105].
+1 <= Node.val <= 105
+
+===================================================================
+Explanation
+
+1. slow pointer which moves 1 node every turn.
+2. Fast pointer which moves 2 nodes every turn.
+3. Move the fast pointer first and then slow pointer to stop just before the to-be-removed-node.
+4. The above sequence can only be determined by playing few scenarios in mind/paper.
+5. Ensure you do not move to next from a None.
+
+===================================================================
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteMiddle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        
+        slow = head
+        fast = head.next
+        
+        if not fast:
+            return None
+        
+        while fast:
+            if not fast.next or not fast.next.next:
+                break
+            fast = fast.next.next
+            slow = slow.next
+        
+        
+        
+        temp = slow.next
+        slow.next = slow.next.next
+        temp.next = None
+        
+        return head
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
