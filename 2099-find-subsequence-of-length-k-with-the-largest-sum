@@ -1,0 +1,41 @@
+Problem:
+https://leetcode.com/problems/find-subsequence-of-length-k-with-the-largest-sum/
+
+===================================================================
+Constraints
+1 <= nums.length <= 1000
+-105 <= nums[i] <= 105
+1 <= k <= nums.length
+
+===================================================================
+Explanation
+1. for each num in nums, add num to res if len(res) is less than k
+2. Else, find the min number in res
+3. If the new num in loop is greater than min_num in res.
+4. Replace it but keep the order.
+
+
+===================================================================
+class Solution:
+    def maxSubsequence(self, nums: List[int], k: int) -> List[int]:
+
+        n = len(nums)
+        
+        res = []
+        
+        for i in range(n):
+            
+            if len(res) < k:
+                res.append(nums[i])
+                continue
+                
+            min_num = min(res)
+            
+            if min_num < nums[i]:
+                res.append(nums[i])
+                res.remove(min_num)
+        
+        return res
+===================================================================
+Time complexity = O(n*k)
+Space complexity = O(k)
