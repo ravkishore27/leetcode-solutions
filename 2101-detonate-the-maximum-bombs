@@ -1,0 +1,55 @@
+Problem:
+https://leetcode.com/problems/detonate-the-maximum-bombs/
+
+===================================================================
+Constraints
+1 <= bombs.length <= 100
+bombs[i].length == 3
+1 <= xi, yi, ri <= 105
+
+===================================================================
+Explanation
+1. Couldn't find an answer below n^2.
+2. Make graph i --> j if j-bomb is within the radius of i-bomb.
+3. Note: i --> j does not mean j ---> i (radius of j can be lesser)
+4. Loop each node in graph and perform a dfs to see how many nodes it is connected with.
+5. Simple dfs will let you know how many nodes you visited from a given node.
+6. Ensure to clean the visited for every node dfs-cycle.
+
+
+===================================================================
+class Solution:
+    def maximumDetonation(self, bombs: List[List[int]]) -> int:
+        
+        graph = dict()
+        
+        n = len(bombs)
+        
+        for i in range(n):
+            r1 = bombs[i][2]*bombs[i][2]
+            for j in range(n):
+                if i != j :
+                    if (bombs[i][0]- bombs[j][0])*(bombs[i][0]- bombs[j][0])  + (bombs[i][1]-bombs[j][1]) * (bombs[i][1]-bombs[j][1]) <= r1:
+                        if i not in graph:
+                            graph[i] = []
+                        graph[i].append(j)
+        
+        def dfs(node, visited):
+            for n in graph[node]:
+                if n not in visited:
+                    visited.add(n)
+                    if n in graph :
+                        dfs(n, visited)
+        
+        res = 0
+        for i in range(n):
+            visited = set([i])
+            if i in graph:
+                dfs(i, visited)
+            # print(i, visited)
+            res = max(res, len(visited))
+            
+        return res
+===================================================================
+Time complexity = O(n^2)
+Space complexity = O(n)
