@@ -1,0 +1,45 @@
+Problem:
+https://leetcode.com/problems/rings-and-rods/
+
+===================================================================
+Constraints
+rings.length == 2 * n
+1 <= n <= 100
+rings[i] where i is even is either 'R', 'G', or 'B' (0-indexed).
+rings[i] where i is odd is a digit from '0' to '9' (0-indexed).
+
+===================================================================
+Explanation
+1. Dictionary to keep tract of rods.
+2. For every rod a set() is intialized.
+3. Add every color and if the set() length is 3 then don't add.
+4. Only after adding, check if the len is 3 then increase res += 1
+5. Make it faster by returning if res == 10 because only 10 rods exist.
+
+===================================================================
+class Solution:
+    def countPoints(self, rings: str) -> int:
+        
+        d = dict()
+        
+        n = len(rings)
+        
+        res = 0
+        for i in range(0, n, 2):
+            if res == 10:
+                return res
+            color, rod = rings[i], rings[i+1] 
+            if rod not in d:
+                d[rod] = set()
+            
+            if len(d[rod]) == 3:
+                continue
+            
+            d[rod].add(color)
+            if len(d[rod]) == 3:
+                res += 1
+        
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
