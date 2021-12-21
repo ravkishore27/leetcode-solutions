@@ -1,0 +1,32 @@
+Problem:
+https://leetcode.com/problems/longest-increasing-subsequence/
+
+===================================================================
+Constraints
+1 <= nums.length <= 2500
+-104 <= nums[i] <= 104
+
+===================================================================
+Explanation
+1. You create an empty array.
+2. Transfer the numbers from given list into new result array.
+3. Use binary search bisect to find right insertion of number in the result array.
+
+===================================================================
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        
+        res = []
+        
+        for n in nums:
+            index = bisect.bisect_left(res, n)
+            
+            if index == len(res):
+                res.append(n)
+            else:
+                res[index] = n
+            
+        return len(res)
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
