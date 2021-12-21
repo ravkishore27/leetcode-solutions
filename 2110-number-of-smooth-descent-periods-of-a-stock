@@ -1,0 +1,40 @@
+Problem:
+https://leetcode.com/problems/number-of-smooth-descent-periods-of-a-stock/
+
+===================================================================
+Constraints
+1 <= prices.length <= 105
+1 <= prices[i] <= 105
+
+===================================================================
+Explanation
+1. If you find the smooth descent. 
+2. Keep the temp variable to find how many elements are part of smooth descent.
+3. Once you find the descent is over, calculate res.
+4. It is the total number of subsets of the given descent range.
+5. This can be calculated as SummationOf(N)
+
+===================================================================
+class Solution:
+    def getDescentPeriods(self, prices: List[int]) -> int:
+        
+        res = 0
+        
+        n = len(prices)
+        
+        temp = 1
+        for i in range(1, n):
+            
+            if prices[i] - prices[i-1] == -1 :
+                temp += 1
+            else:
+                # print(temp)
+                res = res + (temp*(temp+1))//2
+                temp = 1
+                
+        res = res + (temp*(temp+1))//2
+        
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
