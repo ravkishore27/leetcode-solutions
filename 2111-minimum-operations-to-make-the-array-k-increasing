@@ -1,0 +1,44 @@
+Problem:
+https://leetcode.com/problems/minimum-operations-to-make-the-array-k-increasing/
+
+===================================================================
+Constraints
+1 <= arr.length <= 105
+1 <= arr[i], k <= arr.length
+
+===================================================================
+Explanation
+1. LIS in diguise problem.
+2. Make a temporary array to hold all elements within k spaces.
+3. Call LIS k times. 
+4. LIS will return the number of Longest Increasing subsequence.
+5. Add them for all k times.
+6. you will need to only change those elements that are n-res.
+
+===================================================================
+class Solution:
+    def kIncreasing(self, arr: List[int], k: int) -> int:
+        
+        def LIS(arr):
+            ans = []
+            for a in arr:
+                idx = bisect.bisect_right(ans, a)
+                if idx == len(ans):
+                    ans.append(a)
+                else:
+                    ans[idx] = a       
+            return len(ans)
+        
+        res = 0
+        n = len(arr)
+        for i in range(k):
+            temp = []
+            while i < n:
+                temp.append(arr[i])
+                i += k
+            res += LIS(temp)
+        
+        return n-res
+===================================================================
+Time complexity = O((k)*(n/k)log(n/k)) = O(nlog(n/k))
+Space complexity = O(n)
