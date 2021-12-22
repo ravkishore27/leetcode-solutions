@@ -1,0 +1,26 @@
+Problem:
+https://leetcode.com/problems/find-first-palindromic-string-in-the-array/
+
+===================================================================
+Constraints
+1 <= words.length <= 100
+1 <= words[i].length <= 100
+words[i] consists only of lowercase English letters.
+
+===================================================================
+Explanation
+1. loop for every word.
+2. see if the reverse of the word is same as the word.
+3. Return if yes, else continue.
+
+===================================================================
+class Solution:
+    def firstPalindrome(self, words: List[str]) -> str:
+        res = ""
+        for word in words:
+            if word == word[::-1]:
+                return word
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
