@@ -1,0 +1,35 @@
+Problem:
+https://leetcode.com/problems/adding-spaces-to-a-string/
+
+===================================================================
+Constraints
+1 <= s.length <= 3 * 105
+s consists only of lowercase and uppercase English letters.
+1 <= spaces.length <= 3 * 105
+0 <= spaces[i] <= s.length - 1
+All the values of spaces are strictly increasing.
+
+===================================================================
+Explanation
+1. loop the string.
+2. When the index of the string is equal to spaces[j] then add space to res.
+3. Increase j so that next space is to be added.
+
+===================================================================
+class Solution:
+    def addSpaces(self, s: str, spaces: List[int]) -> str:
+        
+        n = len(s)
+        
+        res = ""
+        j = 0
+        for i in range(n):
+            while j < len(spaces) and spaces[j] == i:
+                res += " "
+                j += 1
+            res += s[i]
+            
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
