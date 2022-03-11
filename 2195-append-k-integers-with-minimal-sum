@@ -1,0 +1,47 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-283/problems/append-k-integers-with-minimal-sum/
+
+===================================================================
+Constraints
+1 <= nums.length <= 105
+1 <= nums[i] <= 109
+1 <= k <= 108
+
+===================================================================
+Explanation
+1. Keep track of last number checked with default value to be zero.
+2. Loop in the given nums.
+3. For every given number, calculate the summation(currentNum -1) - summation(lastNum)
+4. Keep track of K during and after the loop for edge cases.
+
+===================================================================
+class Solution:
+    def minimalKSum(self, nums: List[int], k: int) -> int:
+        
+        def summation(n):
+            return (n * (n+1))//2
+        
+        nums.sort()
+        last = 0
+        res = 0
+        print(nums)
+        for num in nums:
+            # check for dups and last 
+            if num - last - 1 <= k:
+                if num == last:
+                    continue
+                k = k - (num - last - 1)
+                res += summation(num-1) - summation(last)
+                # print("num : ", num, " last : ", last, " sum(num-1) : ", summation(num-1), " sum(last) : ", \
+                #      summation(last), " diff : ", summation(num-1) - summation(last), " k : ", k, " res : ", res)
+                last = num
+            else:
+                break
+                
+        if k > 0:
+            res += summation(last+k) - summation(last)
+            
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
