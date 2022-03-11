@@ -1,0 +1,51 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-283/problems/create-binary-tree-from-descriptions/
+
+===================================================================
+Constraints
+1 <= descriptions.length <= 104
+descriptions[i].length == 3
+1 <= parenti, childi <= 105
+0 <= isLefti <= 1
+The binary tree described by descriptions is valid.
+
+===================================================================
+Explanation
+1. Use a dictionary to keep track of Nodes being created on fly from descriptions.
+2. If new description parent and child are not present in dictionary, please create them.
+3. After updating the dictionary, update the child as not_parent in second value of dict. schema: m[node_value] = [node, is_parent]
+4. In the end, just loop all values in dict and return the node that is_parent.
+
+===================================================================
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def createBinaryTree(self, descriptions: List[List[int]]) -> Optional[TreeNode]:
+        
+        m = dict()
+        
+        for d in descriptions:
+            parent, child, is_left_child = d[0], d[1], d[2]
+            
+            if parent not in m:
+                m[parent] = [TreeNode(parent), 1]
+                
+            if child not in m:
+                m[child] = [TreeNode(child), 1]
+            
+            if is_left_child:
+                m[parent][0].left = m[child][0]
+            else:
+                m[parent][0].right = m[child][0]
+            m[child][1] = 0
+            
+        for node, is_parent in m.values():
+            if is_parent :
+                return node
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
