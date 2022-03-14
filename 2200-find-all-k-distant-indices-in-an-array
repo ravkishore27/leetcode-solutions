@@ -1,0 +1,38 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-284/problems/find-all-k-distant-indices-in-an-array/
+
+===================================================================
+Constraints
+1 <= nums.length <= 1000
+1 <= nums[i] <= 1000
+key is an integer from the array nums.
+1 <= k <= nums.length
+
+===================================================================
+Explanation
+1. Loop all elements.
+2. If you find the key, start a second loop for k times.
+3. Add the indexes to a set if resultant index is greater than 0 and less than len(nums)
+
+===================================================================
+class Solution:
+    def findKDistantIndices(self, nums: List[int], key: int, k: int) -> List[int]:
+
+        n = len(nums)
+        
+        res = set()
+        
+        for i in range(n):
+            
+            if nums[i] == key:
+                #loop
+                for j in range(k+1):
+                    if i - j >= 0:
+                        res.add(i-j)
+                    if i + j < n:
+                        res.add(i+j)
+        
+        return list(res)
+===================================================================
+Time complexity = O(n*k)
+Space complexity = O(n)
