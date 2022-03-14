@@ -1,0 +1,41 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-283/problems/cells-in-a-range-on-an-excel-sheet/
+
+===================================================================
+Constraints
+s.length == 5
+'A' <= s[0] <= s[3] <= 'Z'
+'1' <= s[1] <= s[4] <= '9'
+s consists of uppercase English letters, digits and ':'.
+
+===================================================================
+Explanation
+1. Split the given string into rows and column variables.
+2. Use ord, str and int functions to transform the data.
+3. Two loops to build up the cell string and add it to the res.
+4. ord is used convert from string to ascii values.
+
+===================================================================
+class Solution:
+    def cellsInRange(self, s: str) -> List[str]:
+        res = []
+        
+        x, y = s.split(":")
+        
+        r1, c1 = x[0], x[1]
+        r2, c2 = y[0], y[1]
+        
+        n = ord(r2)-ord(r1)
+        m = int(c2) - int(c1)
+        
+        print(n, m)
+        
+        for i in range(n+1):
+            cell = chr(ord(r1)+i)
+            for j in range(m+1):
+                res.append(cell + str(int(c1)+j))
+        
+        return res
+===================================================================
+Time complexity = O(n*m) where n <= 26 and m <= 9
+Space complexity = O(n*m)
