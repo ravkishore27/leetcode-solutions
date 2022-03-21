@@ -1,0 +1,49 @@
+Problem:
+https://leetcode.com/contest/biweekly-contest-74/problems/maximize-number-of-subsequences-in-a-string/
+
+===================================================================
+Constraints
+1 <= text.length <= 105
+pattern.length == 2
+text and pattern consist only of lowercase English letters.
+
+===================================================================
+Explanation
+1. if pattern[0](let x)  == pattern[1] (let y) then its pattern[0]! 
+2. Else, loop the text.
+3. Count the x and y in text.
+4. when you find the y then increase the res by x because the current y can make "x" combinations of "xy"
+5. Add either count_x or count_y which ever is greater. x or y. 
+   Because you will add x or y to end or beginning of text to make a combinations possible.
+===================================================================
+class Solution:
+    def maximumSubsequenceCount(self, text: str, pattern: str) -> int:
+        
+        res = 0
+        
+        x, y = pattern[0], pattern[1]
+        count_x, count_y = 0,0
+        
+        if x == y:
+            res = text.count(x)
+            return (res*(res+1)//2) 
+        
+        n = len(text)
+
+        for i in range(n):
+            
+            if text[i] == x:
+                count_x += 1     
+            if text[i] == y:
+                count_y += 1
+                res += count_x
+                
+        if count_x > count_y:
+            res += count_x
+        else:
+            res += count_y
+            
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
