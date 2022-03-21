@@ -1,0 +1,42 @@
+https://leetcode.com/contest/biweekly-contest-74/problems/minimum-operations-to-halve-array-sum/
+
+===================================================================
+Constraints
+1 <= nums.length <= 105
+1 <= nums[i] <= 107
+
+===================================================================
+Explanation
+1. Use heapq for removing the highest number from neg_nums
+2. neg_nums is nums list with -1 * each number.
+3. Now just divide the biggest number by 2 and see if the updated sum is less than half its orignal value.
+
+===================================================================
+class Solution:
+    def halveArray(self, nums: List[int]) -> int:
+        
+        half = sum(nums) / 2
+        
+        curr_sum = sum(nums)
+        
+        res = 0
+        
+        neg_nums = [-1 * nums[i] for i in range(len(nums))]
+        heapq.heapify(neg_nums)
+        
+        while curr_sum > half:
+            
+            highest_num = heapq.heappop(neg_nums)
+            
+            # print(neg_nums, highest_num)
+            
+            heapq.heappush(neg_nums, highest_num  / 2)
+            
+            curr_sum = curr_sum - (-1 * highest_num) + ( (-1 * highest_num) / 2)
+            
+            res += 1
+            
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
