@@ -1,0 +1,43 @@
+Problem:
+https://leetcode.com/contest/biweekly-contest-74/problems/minimum-white-tiles-after-covering-with-carpets/
+
+===================================================================
+Constraints
+1 <= carpetLen <= floor.length <= 1000
+floor[i] is either '0' or '1'.
+1 <= numCarpets <= 1000
+===================================================================
+Explanation
+1. Let us use DP.
+2. DP[i][k] represents k tiles covering i tiles leaving minumum number of white tiles visible.
+3. For each tile floor[i], we have two options:
+One option is doing nothing, jump this tile,
+  jump = dp[i - 1][k] + int(s[i - 1])
+The other option is covering this tile
+  cover = dp[i - l][k - 1]
+4. Then we take the minimum result of two options:
+    dp[i][k] = min(jump, cover)
+
+5. Finally after explore all combination of (i,k),
+   return dp[n][nc].
+
+===================================================================
+class Solution:
+class Solution:
+    def minimumWhiteTiles(self, floor: str, numCarpets: int, carpetLen: int) -> int:
+        
+        @lru_cache(None)
+        def dp (i, k):
+            
+            if i <= 0:
+                return 0
+            
+            return min(int(floor[i-1]) + dp(i-1, k), dp(i-carpetLen, k-1) if k else 1000)
+        
+        
+        return dp(len(floor), numCarpets)
+===================================================================
+Time O(NC)
+Space O(NC)
+where N = floor.length and C = numCarpets.
+Space can be optimized to O(N).
