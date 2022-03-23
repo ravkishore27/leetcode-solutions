@@ -1,0 +1,48 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-285/problems/count-collisions-on-a-road/
+
+===================================================================
+Constraints
+1 <= directions.length <= 105
+directions[i] is either 'L', 'R', or 'S'.
+
+===================================================================
+Explanation
+1. Loop to check if current i is "R" or "L" or "S" (else)
+2. if R then just note the recent index and count the r_count
+3. if L then see which is latest, r_index or s_index and also see if r_count is greater than 0.
+   Update the res and now this index becomes stop or s_index.
+4. if "S" (else) then update s_index and add all r_counts to res and update r_count to zero.
+
+===================================================================
+class Solution:
+    def countCollisions(self, directions: str) -> int:
+        r_count, s_count, l_count = 0, 0, 0
+        s_index, r_index, l_index = -1, -1, -1
+        
+        n = len(directions)
+        res = 0
+        
+        for i in range(n):
+            
+            if directions[i] == "R":
+                r_index = i
+                r_count += 1
+            elif directions[i] == "L":
+                if r_index > s_index and r_count:
+                    r_count -= 1
+                    res += 2
+                    res += r_count
+                    r_count = 0
+                    s_index = i
+                elif s_index > r_index:
+                    res += 1
+            else:
+                s_index = i
+                res += r_count
+                r_count = 0
+                
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
