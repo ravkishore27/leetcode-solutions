@@ -1,0 +1,50 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-285/problems/count-hills-and-valleys-in-an-array/
+
+===================================================================
+Constraints
+3 <= nums.length <= 100
+1 <= nums[i] <= 100
+
+===================================================================
+Explanation
+1. level is initialized to track down or up.
+2. level = 0 is downward and level = 1 is upward.
+3. Loop the nums and increment res only when level and next is hill or valley.
+
+===================================================================
+class Solution:
+    def countHillValley(self, nums: List[int]) -> int:
+        
+        n = len(nums)
+        
+        i = 1   
+        res = 0    
+        level = -1
+        
+        while i < n -1 :
+            
+            if nums[i] > nums[i-1]:
+                if level == 0:
+                    res += 1
+                level = 1
+                
+            elif nums[i] < nums[i -1]:
+                if level == 1:
+                    res += 1
+                level = 0
+                
+            if nums[i] < nums[i+1]:
+                if level == 0:
+                    res += 1
+                level = 1
+            elif nums[i] > nums[i+1]:
+                if level == 1:
+                    res += 1
+                level = 0
+            i += 1
+            
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
