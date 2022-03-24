@@ -1,0 +1,52 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-285/problems/maximum-points-in-an-archery-competition/
+
+===================================================================
+Constraints
+1 <= numArrows <= 105
+aliceArrows.length == bobArrows.length == 12
+0 <= aliceArrows[i], bobArrows[i] <= numArrows
+sum(aliceArrows[i]) == numArrows
+
+===================================================================
+Explanation
+1. Backtracking is the solution.
+2. With i = 0, backtrack till end when bob loses.
+3. Then make a condition when bob wins and backtrack again for all possible cases.
+4. Ensure to reset the backtracking condition at the end.
+
+===================================================================
+class Solution:
+    def maximumBobPoints(self, numArrows: int, aliceArrows: List[int]) -> List[int]:
+        
+        self.bestBobArrows = [0] * 12
+        self.score = 0
+        
+        def backtracking(i, bobArrows, score, currArrows):
+            
+            if i == 12:
+                if score > self.score:
+                    self.score = score
+                    self.bestBobArrows = currArrows.copy()
+                    # print(score, self.bestBobArrows)
+                return
+            
+            backtracking(i+1, bobArrows, score, currArrows) # bob loses
+            
+            # bob wins
+            requriedArrows = aliceArrows[i] + 1
+            if bobArrows >= requriedArrows:
+                old = currArrows[i]
+                currArrows[i] = requriedArrows # set winning arrrows
+                backtracking(i+1, bobArrows - requriedArrows, score + i, currArrows)
+                currArrows[i] = old # reset for backtracking
+            
+            
+        backtracking(0, numArrows, 0, [0] * 12)
+        
+        self.bestBobArrows[0] = self.bestBobArrows[0] + (numArrows - sum(self.bestBobArrows))
+        
+        return self.bestBobArrows
+===================================================================
+Time complexity = Time: O(2 ^ 12) in avg. But in the worst case it always update the bestScore, so it does copy the whole currArrows, so it takes O(12 * 2^12) in time complexity.
+Space complexity = O(1)
