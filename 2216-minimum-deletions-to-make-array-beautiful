@@ -1,0 +1,42 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-286/problems/minimum-deletions-to-make-array-beautiful/
+
+===================================================================
+Constraints
+1 <= nums.length <= 105
+0 <= nums[i] <= 105
+
+===================================================================
+Explanation
+1. loop i till you reach n-1
+2. if the current (i-res) is even and nums[i] == nums[i+1]; delete i-th element.
+   i - res; because res is the number of elements or indexes we deleted so far.
+3. Increment i by 1 and continue.
+4. Else, increment by 2
+5. Check in the end if res is odd, if yes, add 1 to make it even.
+===================================================================
+class Solution:
+    def minDeletion(self, nums: List[int]) -> int:
+        
+        n = len(nums)
+        
+        res = 0
+        if n == 0:
+            return res
+        
+        i = 0
+        while i < n - 1:
+            if (i-res) % 2 == 0 and nums[i] == nums[i+1]:
+                res += 1
+                i += 1
+                continue
+            i += 2
+            
+        if (n - res) % 2 != 0:
+            res += 1
+            
+        return res
+            
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
