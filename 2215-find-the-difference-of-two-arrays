@@ -1,0 +1,35 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-286/problems/find-the-difference-of-two-arrays/
+
+===================================================================
+Constraints
+1 <= nums1.length, nums2.length <= 1000
+-1000 <= nums1[i], nums2[i] <= 1000
+
+===================================================================
+Explanation
+1. Convert them into set.
+2. Use loop to calculate individually.
+
+===================================================================
+class Solution:
+    def findDifference(self, nums1: List[int], nums2: List[int]) -> List[List[int]]:
+        
+        nums1 = set(nums1)
+        
+        nums2 = set(nums2)
+        
+        res = [[],  []]
+        
+        for num in nums1:
+            if num not in nums2:
+                res[0].append(num)
+                
+        for num in nums2:
+            if num not in nums1:
+                res[1].append(num)
+        
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
