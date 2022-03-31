@@ -1,0 +1,45 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-286/problems/find-palindrome-with-fixed-length/
+
+===================================================================
+Constraints
+1 <= queries.length <= 5 * 104
+1 <= queries[i] <= 109
+1 <= intLength <= 15
+
+===================================================================
+Explanation
+1. Reference: https://leetcode.com/problems/find-palindrome-with-fixed-length/discuss/1886972/Java-or-Detailed-explanation-with-the-reference-link
+2. Consider only first half as significant.
+3. Second half would just be mirror.
+4. Let q = ceiling(m / 2)
+   Let offset = p ^ (q - 1)
+   Let number = (n - 1) + offset
+5. Check if the lengths of both halfs are equal by sum to the intLength else add -1 to ans.
+
+===================================================================
+class Solution:
+    def kthPalindrome(self, queries: List[int], intLength: int) -> List[int]:
+        
+        l = math.ceil(intLength / 2)
+            
+        base = 10**(l - 1)
+        # print(base)
+        
+        res = []
+        
+        for q in queries:
+            
+            first_half = str(q - 1 + base)
+            
+            second_half = (str(first_half)[:-1][::-1] if intLength % 2 != 0 else str(first_half)[::-1])
+            # print(first_half, second_half)
+            if len(first_half) + len(second_half) == intLength:
+                res.append((int)(first_half + second_half))
+            else:
+                res.append(-1)
+            
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
