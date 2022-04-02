@@ -1,0 +1,47 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-286/problems/maximum-value-of-k-coins-from-piles/
+
+===================================================================
+Constraints
+n == piles.length
+1 <= n <= 1000
+1 <= piles[i][j] <= 105
+1 <= k <= sum(piles[i].length) <= 2000
+
+===================================================================
+Explanation
+1. Top Down DP solution.
+2. dp(i,k) would represent i-th pile with k coins left to remove.
+3. First we just ignore the current pile move till end.
+4. Then we loop the pile using j. 
+5. For every addition of coin we call dp again to see if we can skip the current pile and get a better answer.
+6. Note to make the loop to be min(k, piles[i])
+
+===================================================================
+class Solution:
+    def maxValueOfCoins(self, piles: List[List[int]], k: int) -> int:
+        
+        n = len(piles)
+        
+        @lru_cache(None)
+        def dp(i, n, k):
+            
+            if i == n or k == 0:
+                return 0
+            
+            res = dp(i+1, n, k)
+            
+            cur = 0
+            
+            for j in range(min(len(piles[i]), k)):
+                
+                cur += piles[i][j]
+                
+                res = max(res, cur + dp(i+1, n, k - j - 1))
+                
+            return res
+        
+        return dp(0, n, k)
+===================================================================
+Time complexity = O(nm)
+Space complexity = O(nk)
