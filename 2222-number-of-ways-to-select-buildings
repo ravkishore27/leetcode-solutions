@@ -1,0 +1,52 @@
+Problem:
+https://leetcode.com/contest/biweekly-contest-75/problems/number-of-ways-to-select-buildings/
+
+===================================================================
+Constraints
+3 <= s.length <= 105
+s[i] is either '0' or '1'.
+
+===================================================================
+Explanation
+1. Loop the string in reverse and count the number of 1s and 0s 
+2. Update new array where a[i] = (number of zeros before it, number of 1s before it)
+3. Now loop again.
+4. For each s[i], number of pairs = number of 1s or 0s before multiply into after it. 
+5. Only two options are possible : 101 or 010.
+
+===================================================================
+class Solution:
+    def numberOfWays(self, s: str) -> int:
+        
+        n = len(s)
+        
+        arr = [(0,0) for i in range(n)]
+        # print(arr)
+        
+        n_0, n_1 = 0, 0
+        
+        for i in range(n-1, -1, -1):
+            
+            arr[i] = (n_0, n_1)
+            
+            if s[i] == '0':
+                n_0 += 1
+            else:
+                n_1 += 1
+        # print(arr)
+        n_0, n_1 = 0, 0
+        res = 0
+        for i in range(n):
+            
+            if s[i] == '0':
+                res += n_1 * arr[i][1]
+                n_0 += 1
+            else:
+                res += n_0 * arr[i][0]
+                n_1 += 1
+                
+                
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
