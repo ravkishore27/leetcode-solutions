@@ -1,0 +1,54 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-288/problems/largest-number-after-digit-swaps-by-parity/
+
+===================================================================
+Constraints
+1 <= num <= 109
+
+===================================================================
+Explanation
+1. Use heaps for keep track of negative and positive digits.
+2. Then loop the number again in reverse.
+3. If you find even, put the least even number in that index else append least odd number.
+4. Reverse the arr into a number and return.
+
+===================================================================
+class Solution:
+    def largestInteger(self, num: int) -> int:
+        
+        even, odd = [], []
+        heapq.heapify(even)
+        heapq.heapify(odd)
+        x = num
+        
+        n = 0
+        
+        while(num > 0):
+            digit = num % 10
+            
+            if digit % 2 == 0:
+                heapq.heappush(even,  digit)
+            else:
+                heapq.heappush(odd, digit)
+            num = num//10
+            n += 1
+            
+            
+        res = []
+        
+        while x > 0:
+            digit = x % 10
+            
+            if digit % 2 == 0:
+                res.append(heapq.heappop(even))
+            else:
+                res.append(heapq.heappop(odd))
+            
+            x = x // 10
+        
+        res = int(''.join(str(i) for i in res[::-1]))
+        
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
