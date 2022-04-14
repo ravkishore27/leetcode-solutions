@@ -1,0 +1,57 @@
+Problem:
+https://leetcode.com/contest/biweekly-contest-75/problems/sum-of-scores-of-built-strings/
+
+===================================================================
+Constraints
+1 <= s.length <= 105
+s consists of lowercase English letters.
+
+===================================================================
+Explanation
+1. Create a z-index array using z-algorithm.
+2. ref: https://www.geeksforgeeks.org/?p=135110
+3. ans = n + sum(z)
+
+===================================================================
+class Solution:
+    def sumScores(self, s: str) -> int:
+        
+        #create a z-algorithm's z-array.
+        
+        n = len(s)
+        
+        z = [0] * n
+        
+        l, r, k = 0, 0, 0
+        
+        for i in range(1, n):
+            
+            if i > r:
+                l, r = i, i
+                
+                while r < n and s[r-l] == s[r]:
+                    r += 1
+                z[i] = r - l
+                r -= 1
+                
+            else:
+                k = i - l
+                
+                if z[k] < r - i + 1:
+                    z[i] = z[k]
+                    
+                else:
+                    l = i
+                    
+                    while r < n and s[r-l] == s[r]:
+                        r += 1
+                    z[i] = r - l
+                    r -= 1
+                    
+                    
+        # print(z)
+        
+        return n + sum(z)
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
