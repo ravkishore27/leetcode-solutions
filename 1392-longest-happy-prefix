@@ -1,0 +1,56 @@
+Problem:
+https://leetcode.com/problems/longest-happy-prefix/
+
+===================================================================
+Constraints
+1 <= s.length <= 105
+s contains only lowercase English letters.
+
+===================================================================
+Explanation
+1. Use z algorithm.
+2. Then return the substring only if it is a suffix in z array.
+3. Use a for loop to achieve this. if i + z[i] == n:
+
+===================================================================
+class Solution:
+class Solution:
+    def longestPrefix(self, s: str) -> str:
+        
+        #z algorithm
+        
+        n = len(s)
+        
+        z = [0] * n
+        
+        l, r, k = 0, 0, 0
+        
+        for i in range(1, n):
+            
+            if i > r:
+                l, r = i, i
+                while r < n and s[r-l] == s[r]:
+                    r += 1
+                z[i] = r - l
+                r -= 1
+                
+            else:
+                # you have l to r
+                k = i - l
+                
+                if z[k] < r - i + 1:
+                    z[i] = z[k]
+                else:
+                    l = i
+                    while r < n and s[r-l] == s[r]:
+                        r += 1
+                    z[i] = r - l
+                    r -= 1
+            
+        for i in range(len(z)): 
+            if i + z[i] == n:
+                return s[:z[i]]
+        return ""
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
