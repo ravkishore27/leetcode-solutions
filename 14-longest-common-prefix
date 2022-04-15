@@ -1,0 +1,40 @@
+Problem:
+https://leetcode.com/problems/longest-common-prefix/
+
+===================================================================
+Constraints
+1 <= strs.length <= 200
+0 <= strs[i].length <= 200
+strs[i] consists of only lower-case English letters.
+
+===================================================================
+Explanation
+1. First compute the least index in the given strings.
+2. Use two loops to check each index one by one for all strings.
+3. If you find mismatch anywhere return res.
+4. If all chars match at given index then add it to str.
+
+===================================================================
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        
+        res = ""
+        
+        n = len(strs)
+        m = sys.maxsize
+        
+        for i in range(n):
+            if len(strs[i]) < m:
+                m = len(strs[i])
+                
+        for i in range(m):
+            for j in range(1 , n):
+                if strs[j][i] != strs[j-1][i]:
+                    return res
+            res += strs[0][i]
+            
+        return res
+
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
