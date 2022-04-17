@@ -1,0 +1,35 @@
+Problem:
+https://leetcode.com/contest/biweekly-contest-76/problems/find-closest-number-to-zero/
+
+===================================================================
+Constraints
+1 <= n <= 1000
+-105 <= nums[i] <= 105
+
+===================================================================
+Explanation
+1. Just check for negative and positive separately.
+2. If you find zero, just return zero.
+3. In the end, return positive integer if positive <= abs(negative) else negative.
+
+===================================================================
+class Solution:
+    def findClosestNumber(self, nums: List[int]) -> int:
+        
+        p, n = sys.maxsize, -1 * sys.maxsize
+        
+        for num in nums:
+            if num > 0:
+                if num < p:
+                    p = num
+            elif num < 0:
+                if num > n:
+                    n = num
+            else:
+                return num
+            
+        # print(n,p)
+        return p if p <= abs(n) else n
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
