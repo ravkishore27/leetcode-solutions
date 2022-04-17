@@ -1,0 +1,29 @@
+Problem:
+https://leetcode.com/contest/biweekly-contest-76/problems/number-of-ways-to-buy-pens-and-pencils/
+
+===================================================================
+Constraints
+1 <= total, cost1, cost2 <= 106
+
+===================================================================
+Explanation
+1. One loop for the number of times cost1 can buy.
+2. For every x you can buy total-(i*cost1) // cost2 + 1
+
+===================================================================
+class Solution:
+    def waysToBuyPensPencils(self, total: int, cost1: int, cost2: int) -> int:
+        
+        x = total//cost1
+        
+        res = 0
+        
+        for i in range(x+1):
+            curr = i*cost1
+            y = (total-curr) // cost2
+            res += y+1
+            
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
