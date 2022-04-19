@@ -1,0 +1,52 @@
+Problem: https://leetcode.com/contest/biweekly-contest-76/problems/maximum-score-of-a-node-sequence/
+
+===================================================================
+Constraints
+n == scores.length
+4 <= n <= 5 * 104
+1 <= scores[i] <= 108
+0 <= edges.length <= 5 * 104
+edges[i].length == 2
+0 <= ai, bi <= n - 1
+ai != bi
+There are no duplicate edges.
+
+===================================================================
+Explanation
+1. ref: https://leetcode.com/problems/maximum-score-of-a-node-sequence/discuss/1953669/Python3-Explanation-with-pictures-top-3-neighbors.
+2. First use a heapq or list as below to keep track of top 3 edges for each edge.
+3. Loop each edge and check if there are atleast 2 edges in top3 else continue.
+4. For each a+b find c and d such that they are independent of a,b and also not equal.
+5. Now find max res.
+
+===================================================================
+class Solution:
+    def maximumScore(self, scores: List[int], edges: List[List[int]]) -> int:
+        
+        n = len(scores)
+        
+        top3 = collections.defaultdict(list)
+        
+        def updateTop3(a, b, score):
+            bisect.insort_left(top3[a], [score, b])
+            if len(top3[a]) > 3:
+                top3[a].pop(0)
+                
+        for a,b in edges:
+            updateTop3(a,b,scores[b])
+            updateTop3(b,a,scores[a])
+            
+        res = -1
+        
+        for a, b in edges:
+            if len(top3[a]) < 2 or len(top3[b]) < 2:
+                continue
+            for c in top3[a]:
+                for d in top3[b]:
+                    if c[1] not in [a,b] and d[1] not in [a,b] and c[1] != d[1]:
+                        res = max(res, c[0] + scores[a] + scores[b] + d[0])
+
+        return res
+===================================================================
+Time complexity = O(n*3) ~ O(n)
+Space complexity = O(n)
