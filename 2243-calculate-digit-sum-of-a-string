@@ -1,0 +1,45 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-289/problems/calculate-digit-sum-of-a-string/
+
+===================================================================
+Constraints
+1 <= s.length <= 100
+2 <= k <= 100
+s consists of digits only.
+
+===================================================================
+Explanation
+1. Use another func to getSum of given string and return res digits in str.
+2. Loop till len(s) < k
+3. Another inner loop to count from i=0 to len(s)
+4. Use a temp_s to calculate new string after the given operations.
+5. Update the s = temp_s before repeating step:2
+
+===================================================================
+class Solution:
+    def digitSum(self, s: str, k: int) -> str:
+        
+        def getSum(s):
+            r = 0
+            # print(s)
+            for i in range(len(s)):
+                r += int(s[i])
+            return str(r)
+        
+        
+        i = 0
+        while len(s) > k:
+            temp_s = ""
+            while i < len(s):
+                n = i + k
+                if n > len(s):
+                    n = len(s) 
+                temp_s += getSum(s[i:n])
+                i += k
+            s = temp_s
+            i = 0
+            
+        return s
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
