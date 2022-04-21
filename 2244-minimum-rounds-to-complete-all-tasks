@@ -1,0 +1,41 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-289/problems/minimum-rounds-to-complete-all-tasks/
+
+===================================================================
+Constraints
+1 <= tasks.length <= 105
+1 <= tasks[i] <= 109
+
+===================================================================
+Explanation
+1. Loop tasks and count them in a dict.
+2. Then check if values.
+3. if value == 1 then return -1
+4. res += v // 3
+5. You only increase res += 1 if v % 3 != 0.
+
+===================================================================
+class Solution(object):
+    def minimumRounds(self, tasks):
+        """
+        :type tasks: List[int]
+        :rtype: int
+        """
+        
+        m = collections.defaultdict(int)
+        
+        for task in tasks:
+            m[task] += 1
+        
+        res = 0
+        for v in m.values():
+            if v == 1:
+                return -1
+            res += v // 3
+            if v % 3 != 0:
+                res += 1
+        
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
