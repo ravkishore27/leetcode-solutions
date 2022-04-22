@@ -1,0 +1,79 @@
+Problem:
+https://leetcode.com/contest/biweekly-contest-76/problems/design-an-atm-machine/
+
+===================================================================
+Constraints
+banknotesCount.length == 5
+0 <= banknotesCount[i] <= 109
+1 <= amount <= 109
+At most 5000 calls in total will be made to withdraw and deposit.
+At least one call will be made to each function withdraw and deposit.
+
+===================================================================
+Explanation
+1. Deposit and init are standard.
+2. Withdrawl, check if you can give max denomination at each if condition.
+3. Check if amount is zero in the end.
+
+===================================================================
+class ATM:
+
+    def __init__(self):
+        self.notes = [0,0,0,0,0]
+        
+    
+    def deposit(self, banknotesCount: List[int]) -> None:
+        for i in range(len(banknotesCount)):
+            self.notes[i] += banknotesCount[i]
+
+    def withdraw(self, amount: int) -> List[int]:
+        
+        res = [0,0,0,0,0]
+        if amount >= 500:
+                x = amount // 500
+                if self.notes[4] < x:
+                    x = self.notes[4]
+                res[4] += x
+                amount -= x*500
+                    
+        if amount >= 200:
+                x = amount // 200
+                if self.notes[3] < x:
+                    x = self.notes[3]
+                res[3] += x
+                amount -= x*200
+                
+        if amount >= 100:
+                x = amount // 100
+                if self.notes[2] < x:
+                    x = self.notes[2]
+                res[2] += x
+                amount -= x*100
+        
+        if amount >= 50:
+                x = amount // 50
+                if self.notes[1] < x:
+                    x = self.notes[1]
+                res[1] += x
+                amount -= x*50
+        
+        if amount >= 20:
+                x = amount // 20
+                if self.notes[0] < x:
+                    x = self.notes[0]
+                res[0] += x
+                amount -= x*20
+        
+        # print(self.notes)
+        if amount == 0:
+            self.notes[0] -= res[0]
+            self.notes[1] -= res[1]
+            self.notes[2] -= res[2]
+            self.notes[3] -= res[3]
+            self.notes[4] -= res[4]
+            return res
+        else:
+            return [-1]
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
