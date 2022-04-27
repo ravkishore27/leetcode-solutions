@@ -1,0 +1,42 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-290/problems/count-lattice-points-inside-a-circle/
+
+===================================================================
+Constraints
+1 <= circles.length <= 200
+circles[i].length == 3
+1 <= xi, yi <= 100
+1 <= ri <= min(xi, yi)
+
+===================================================================
+Explanation
+1. For every circle, find sqaure enclosing the circle.
+2. To find this, use radius along with x and y center coordinates.
+3. Now loop and see if it is in circle.
+4. x^2 + y^2 <= r^2
+
+===================================================================
+class Solution:
+    def countLatticePoints(self, circles: List[List[int]]) -> int:
+        
+        res = set()
+        
+        def inCircle(i, j, x, y, r):
+            if (x-i)*(x-i) + (y-j)*(y-j) <= r*r:
+                return True
+            return False
+        
+        for circle in circles:
+            x, y, r = circle[0], circle[1], circle[2]
+            xmin, xmax = x - r, x + r
+            ymin, ymax = y - r, y + r
+            
+            for i in range(xmin, xmax+1):
+                for j in range(ymin, ymax+1):
+                    if inCircle(i, j, x, y, r):
+                        res.add((i,j))
+        # print(res)              
+        return len(res)
+===================================================================
+Time complexity = O(n*m)
+Space complexity = O(n)
