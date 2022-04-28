@@ -1,0 +1,44 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-290/problems/count-number-of-rectangles-containing-each-point/
+
+===================================================================
+Constraints
+1 <= rectangles.length, points.length <= 5 * 104
+rectangles[i].length == points[j].length == 2
+1 <= li, xj <= 109
+1 <= hi, yj <= 100
+All the rectangles are unique.
+All the points are unique.
+
+===================================================================
+Explanation
+1. Create a dict[y] = [values of x]
+2. While inserting, use insort. For logn speed.
+3. Now loop the points.
+4. For every y in dict, use bisect_left (binary search) to find the index to insert x1. (point x)
+5. Remaining points in the list for the given y[y11] would be added to the result.
+
+===================================================================
+class Solution:
+    def countRectangles(self, rectangles: List[List[int]], points: List[List[int]]) -> List[int]:
+        
+        y = collections.defaultdict(list)
+        
+        for x1,y1 in rectangles:
+            bisect.insort_left(y[y1],x1)
+            
+        # print(x)
+        
+        res = []
+        
+        for x1,y1 in points:
+            temp_res = 0
+            for y11 in y:
+                if y11 >= y1:
+                    temp_res += len(y[y11]) - bisect.bisect_left(y[y11], x1)
+            res.append(temp_res)
+        
+        return res
+===================================================================
+Time complexity = O(100*n) ~ O(n)
+Space complexity = O(n)
