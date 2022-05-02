@@ -1,0 +1,70 @@
+Problem:
+https://leetcode.com/problems/course-schedule-ii/
+
+===================================================================
+Constraints
+1 <= numCourses <= 2000
+0 <= prerequisites.length <= numCourses * (numCourses - 1)
+prerequisites[i].length == 2
+0 <= ai, bi < numCourses
+ai != bi
+All the pairs [ai, bi] are distinct.
+
+===================================================================
+Explanation
+1. Directed Graph. Find Cycle. Use recStack.
+2. If cycle found, return empty array.
+3. If the res length is not equal to n then return empty array.
+4. Also append the pre-req at end, so that it is in order in res-array.
+
+===================================================================
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        res = []
+        
+        n = numCourses
+        
+        g = {}
+        
+        for c, p in prerequisites:
+            if c not in g:
+                g[c] = []
+            g[c].append(p)
+            
+        visited = [0] * n
+        recStack =[0] * n
+        
+        def dfs(node, visited, recStack):
+            if recStack[node]:
+                return True
+            if visited[node]:
+                return False
+            visited[node] = 1
+            recStack[node] = 1
+            if node in g:
+                for child in g[node]:
+                    if dfs(child, visited, recStack):
+                        return True
+            res.append(node)
+            recStack[node] = 0
+            return False
+        
+
+        for node in g:
+            if visited[node] == 0:
+                if dfs(node, visited, recStack):
+                    return []
+        print(visited, res)
+        for i in range(n):
+            if visited[i] == 0:
+                if dfs(i, visited, recStack):
+                    return []
+
+        if len(res) == n:
+            return res
+        
+        return []
+        
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
