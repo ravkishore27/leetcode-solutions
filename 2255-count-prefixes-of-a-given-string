@@ -1,0 +1,27 @@
+Problem:
+https://leetcode.com/contest/biweekly-contest-77/problems/count-prefixes-of-a-given-string/
+
+===================================================================
+Constraints
+1 <= words.length <= 1000
+1 <= words[i].length, s.length <= 10
+words[i] and s consist of lowercase English letters only.
+
+===================================================================
+Explanation
+1. Check if each word is substring as prefix.
+
+===================================================================
+class Solution:
+    def countPrefixes(self, words: List[str], s: str) -> int:
+        
+        res = 0
+        
+        for word in words:
+            if word == s[:len(word)]:
+                res += 1
+        
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
