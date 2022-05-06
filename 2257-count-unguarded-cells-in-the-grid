@@ -1,0 +1,77 @@
+Problem:
+https://leetcode.com/contest/biweekly-contest-77/problems/count-unguarded-cells-in-the-grid/
+
+===================================================================
+Constraints
+1 <= m, n <= 105
+2 <= m * n <= 105
+1 <= guards.length, walls.length <= 5 * 104
+2 <= guards.length + walls.length <= m * n
+guards[i].length == walls[j].length == 2
+0 <= rowi, rowj < m
+0 <= coli, colj < n
+All the positions in guards and walls are unique.
+
+===================================================================
+Explanation
+1. Create a visited array for horizontal and vertical directions.
+visited[i][j] = [-1,-1] ~ [-horizontal, -vertical]
+2. Arrange gaurds and walls into a dict{set()} for easy access.
+3. For every gaurd, loop all four directions.
+4. During the loop for each direction, break the loop if you already found the current cell is visited in the given direction. (horizontal or vertical)
+5. Ensure not to check the gaurd cell twice. starting postiions are y+1 and x+1 for right and top directions.
+6. Finally loop the visited array and increment res only if
+   a. The cell was not visited horizontally or vertically. [-1,-1]
+   b. The cell is not a gaurd cell.
+   c. The cell is not a wall cell.
+   
+===================================================================
+class Solution:
+    def countUnguarded(self, m: int, n: int, guards: List[List[int]], walls: List[List[int]]) -> int:
+        
+        visited = [ [[-1,-1] for j in range(n)] for i in range(m)]
+        
+        g = collections.defaultdict(set)
+        for i,j in guards:
+            g[i].add(j)
+            
+        w = collections.defaultdict(set)
+        for i, j in walls:    
+            w[i].add(j)
+        
+        for x, y in guards:
+            #left
+            for i in range(y, -1, -1):
+                if i in w[x] or visited[x][i][0] == 1:
+                    break
+                visited[x][i][0] = 1
+                
+            #right
+            for i in range(y+1, n, 1):
+                if i in w[x] or visited[x][i][0] == 1:
+                    break
+                visited[x][i][0] = 1
+            
+            #top
+            for i in range(x, -1, -1):
+                if y in w[i] or visited[i][y][1] == 1:
+                    break
+                visited[i][y][1] = 1
+            
+            #bot
+            for i in range(x+1, m, 1):
+                if y in w[i] or visited[i][y][1] == 1:
+                    break
+                visited[i][y][1] = 1
+            
+        res = 0
+        
+        for i in range(m):
+            for j in range(n):
+                if visited[i][j][0] == -1 and visited[i][j][1] == -1 and j not in w[i] and j not in g[i]:
+                    res += 1
+
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
