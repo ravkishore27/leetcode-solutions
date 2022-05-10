@@ -1,0 +1,72 @@
+Problem:
+https://leetcode.com/contest/biweekly-contest-77/problems/escape-the-spreading-fire/
+
+===================================================================
+Constraints
+m == grid.length
+n == grid[i].length
+2 <= m, n <= 300
+4 <= m * n <= 2 * 104
+grid[i][j] is either 0, 1, or 2.
+grid[0][0] == grid[m - 1][n - 1] == 0
+
+===================================================================
+Explanation
+1. https://leetcode.com/problems/escape-the-spreading-fire/discuss/1994594/Python-Explanation-with-pictures-Two-BFS-Solutions. 
+Chedck for 2nd solution BFS.
+
+===================================================================
+class Solution:
+    def maximumMinutes(self, grid: List[List[int]]) -> int:
+        
+        n, m = len(grid), len(grid[0])
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        
+        fire_time = [[-1] * m for i in range(n)]
+        ppl_time = [[-1] * m for i in range(n)]
+        
+        # bfs for ppl
+        ppl_front = collections.deque([(0, 0, 0)])
+        while ppl_front:
+            cx, cy, days = ppl_front.popleft()
+            ppl_time[cx][cy] = days
+            for dx, dy in dirs:
+                nx, ny = cx+dx, cy+dy
+                if 0 <= nx < n and 0 <= ny < m and grid[nx][ny] == 0 and ppl_time[nx][ny] == -1:
+                    ppl_front.append((nx,ny,days+1))
+                    
+        # bfs for fire
+        fire_q = collections.deque([(x,y,0) for x in range(n) for y in range(m) if grid[x][y] == 1])
+        while fire_q:
+            cx, cy, days = fire_q.popleft()
+            fire_time[cx][cy] = days
+            for dx, dy in dirs:
+                nx, ny = dx+cx, cy+dy
+                if 0 <= nx < n and 0 <= ny < m and grid[nx][ny] == 0 and fire_time[nx][ny] == -1:
+                    fire_q.append((nx,ny,days+1))
+                    
+        ppl_arrival = ppl_time[-1][-1]
+        fire_arrival = fire_time[-1][-1]
+        
+        if ppl_arrival == -1:
+            return -1
+        
+        if fire_arrival == -1:
+            return 10**9
+        
+        if fire_arrival < ppl_arrival:
+            return -1
+        
+        diff = fire_arrival - ppl_arrival
+        
+        ppl_1, ppl_2 = ppl_time[-1][-2], ppl_time[-2][-1]
+        fire_1, fire_2 = fire_time[-1][-2], fire_time[-2][-1]
+        
+        
+        if ppl_1 > -1 and ppl_2 > -1 and (fire_1 - ppl_1 > diff or fire_2 - ppl_2 > diff):
+            return diff
+        
+        return diff - 1
+===================================================================
+Time complexity = O(n*m)
+Space complexity = O(2n*m)
