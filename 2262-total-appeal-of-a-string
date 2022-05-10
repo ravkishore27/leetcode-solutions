@@ -1,0 +1,30 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-291/problems/total-appeal-of-a-string/
+
+===================================================================
+Constraints
+1 <= s.length <= 105
+s consists of lowercase English letters.
+
+===================================================================
+Explanation
+https://leetcode.com/problems/total-appeal-of-a-string/discuss/1996390/JavaC%2B%2BPython-Easy-and-Concise-with-Explanation
+
+===================================================================
+class Solution:
+    def appealSum(self, s: str) -> int:
+        
+        n = len(s)
+        
+        res = 0
+        
+        last = {c : -1 for c in string.ascii_lowercase}
+        
+        for i, c in enumerate(s):
+            res +=  (i - last[c]) * (n -i)
+            last[c] = i
+            
+        return res 
+===================================================================
+Time complexity = O(n)
+Space complexity = O(26)
