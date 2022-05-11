@@ -1,0 +1,38 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-291/problems/remove-digit-from-number-to-maximize-result/
+
+===================================================================
+Constraints
+2 <= number.length <= 100
+number consists of digits from '1' to '9'.
+digit is a digit from '1' to '9'.
+digit occurs at least once in number.
+
+===================================================================
+Explanation
+1. The idea is that find the digit index such that num[digit_index+1] > digit
+2. Keep moving forward to search for such a digit which is followed by a larger number.
+3. If you dont find one, ensure to remove the last occurance and return the result.
+
+===================================================================
+class Solution:
+    def removeDigit(self, number: str, digit: str) -> str:
+
+        n = number.count(digit)
+        res = "-1"
+        prev = -1
+        
+        for i in range(n):
+            
+            digit_i_index = number.find(digit, prev+1)
+            if digit_i_index+1 < len(number) and int(number[digit_i_index+1]) > int(number[digit_i_index]):
+                res = number[:digit_i_index] + number[digit_i_index+1:]
+                break 
+            if i == n-1:
+                res = number[:digit_i_index] + number[digit_i_index+1:]
+            prev = digit_i_index
+                
+        return res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
