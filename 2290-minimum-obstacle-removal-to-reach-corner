@@ -1,0 +1,58 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-295/problems/minimum-obstacle-removal-to-reach-corner/
+
+===================================================================
+Constraints
+m == grid.length
+n == grid[i].length
+1 <= m, n <= 105
+2 <= m * n <= 105
+grid[i][j] is either 0 or 1.
+grid[0][0] == grid[m - 1][n - 1] == 0
+
+===================================================================
+Explanation
+1. Dijstra algo.
+2. Ensure to have dirs for directions.
+3. Also sptSet/distances will be 2D array. 
+4. Use heapq for fastness
+
+===================================================================
+class Solution:
+    def minimumObstacles(self, grid: List[List[int]]) -> int:
+        #dijskra
+        n , m = len(grid), len(grid[0])
+        
+        dirs = [(-1,0), (1,0), (0,-1), (0,1)]
+        
+        sptSet = [[sys.maxsize for i in range(m)]for j in range(n)]
+        mst = [[-1 for i in range(m)]for j in range(n)]
+        
+        sptSet[0][0] = 0
+        
+        heap = []
+        dist = 0 if grid[0][0] == 0 else 1
+        heapq.heappush(heap, (dist,0,0))
+        
+        while heap:
+            node, i, j = heapq.heappop(heap)
+            if mst[i][j] == 1:
+                continue
+            else:
+                mst[i][j] = 1
+                
+            if i == n-1 and j == m-1:
+                return sptSet[i][j]
+            
+            for d in dirs:
+                newi, newj = i + d[0], j + d[1]
+                if 0 <= newi < n and 0 <= newj < m:
+                    dist = 0 if grid[newi][newj] == 0 else 1
+                    if mst[newi][newj] == -1 and sptSet[i][j] + dist < sptSet[newi][newj]:
+                        sptSet[newi][newj] = sptSet[i][j] + dist
+                        heapq.heappush(heap, (sptSet[newi][newj], newi, newj))
+                    
+        return sptSet[n-1][m-1]
+===================================================================
+Time complexity = O(log(n*m))) [dijkstra] + O(n*m) [populating sptSet and mst 2D arrays]= O(n*m) 
+Space complexity = O(n*m)
