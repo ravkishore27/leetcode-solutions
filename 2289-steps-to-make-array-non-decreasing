@@ -1,0 +1,29 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-295/problems/steps-to-make-array-non-decreasing/
+
+===================================================================
+Constraints
+1 <= nums.length <= 105
+1 <= nums[i] <= 109
+
+===================================================================
+Explanation
+1. Use DP and stack while moving back.
+2. dp[i] is max of dp[i] + 1 or dp[last value of stack]
+3. Append the index to stack after the while loop.
+
+===================================================================
+class Solution:
+    def totalSteps(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp, stack = [0]*n, []
+        for i in range(n-1, -1, -1):
+            while stack and nums[i] > nums[stack[-1]]:
+                dp[i] = max(dp[i] + 1, dp[stack.pop()])
+            stack.append(i)
+            
+        # print(dp)
+        return max(dp)
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
