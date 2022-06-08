@@ -1,0 +1,69 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-296/problems/design-a-text-editor/
+
+===================================================================
+Constraints
+1 <= text.length, k <= 40
+text consists of lowercase English letters.
+At most 2 * 104 calls in total will be made to addText, deleteText, cursorLeft and cursorRight.
+
+===================================================================
+Explanation
+1. Have a cursor and text class variables.
+2. Trick is to ensure cursor never goes below zero or higher than len(text)
+3. Also ensure to add text at the current cursor.
+
+===================================================================
+class TextEditor:
+
+    def __init__(self):
+        self.cursor = 0
+        self.text = ""
+
+    def addText(self, text: str) -> None:
+        self.text = self.text[:self.cursor] + text + self.text[self.cursor:]
+        self.cursor += len(text)
+        # print("addText:", self.text, self.cursor)
+
+    def deleteText(self, k: int) -> int:
+        if self.cursor < k:
+            self.text = self.text[self.cursor:]
+            ans = self.cursor
+            self.cursor = 0
+            print("delText:", self.text, self.cursor)
+            return ans
+        self.text = self.text[:self.cursor-k] + self.text[self.cursor:]
+        self.cursor -= k
+        # print("delText:", self.text, self.cursor)
+        return k
+        
+
+    def cursorLeft(self, k: int) -> str:
+        if self.cursor - k >= 0:
+            self.cursor -= k
+        else:
+            self.cursor = 0
+        index = min(10, len(self.text[:self.cursor]))
+        # print("Left:", self.text, self.cursor)
+        return self.text[self.cursor-index:self.cursor]
+
+    def cursorRight(self, k: int) -> str:
+        if self.cursor + k < len(self.text):
+            self.cursor += k
+        else:
+            self.cursor = len(self.text)
+        index = min(10, len(self.text[:self.cursor]))
+        # print("Right:", self.text, self.cursor)
+        return self.text[self.cursor-index:self.cursor]
+        
+
+
+# Your TextEditor object will be instantiated and called as such:
+# obj = TextEditor()
+# obj.addText(text)
+# param_2 = obj.deleteText(k)
+# param_3 = obj.cursorLeft(k)
+# param_4 = obj.cursorRight(k)
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
