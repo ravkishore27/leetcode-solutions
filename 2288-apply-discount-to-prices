@@ -1,0 +1,38 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-295/problems/apply-discount-to-prices/
+
+===================================================================
+Constraints
+1 <= sentence.length <= 105
+sentence consists of lowercase English letters, digits, ' ', and '$'.
+sentence does not have leading or trailing spaces.
+All words in sentence are separated by a single space.
+All prices will be positive integers without leading zeros.
+All prices will have at most 10 digits.
+0 <= discount <= 100
+===================================================================
+Explanation
+1. Regex problem.
+2. Search for the right regex and then ensure to round off to 2 demical points.
+3. Add it back to res.
+
+===================================================================
+class Solution:
+    def discountPrices(self, s: str, d: int) -> str:
+        words = s.split()
+        res = []
+        for i, word in enumerate(words):
+            if re.search("^\$\d{1,10}$", word) :
+                price = int(word[1:])
+                new_price = round(price - ((price * d) / 100), 2)
+                new_price = str(new_price)
+                if len(new_price.split(".")[1]) == 1:
+                    new_price = new_price + "0"
+                res.append("$" + str(new_price))
+            else:
+                res.append(word)
+        # print(res)
+        return " ".join(res)
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
