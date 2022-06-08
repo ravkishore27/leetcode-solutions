@@ -1,0 +1,35 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-295/problems/rearrange-characters-to-make-target-string/
+
+===================================================================
+Constraints
+1 <= s.length <= 100
+1 <= target.length <= 10
+s and target consist of lowercase English letters.
+
+===================================================================
+Explanation
+1. keep a dict for count of letters in both string and target.
+2. if the key in target is not present in string, then its zero answer.
+3. Else it is minimum of all the divided values.
+
+===================================================================
+class Solution:
+    def rearrangeCharacters(self, s: str, target: str) -> int:
+        n, m = collections.defaultdict(int), collections.defaultdict(int)
+        for i in range(len(s)):
+            n[s[i]] += 1
+            
+        for i in range(len(target)):
+            m[target[i]] += 1
+            
+        ans = sys.maxsize
+        for key in m:
+            if key not in n:
+                return 0
+            ans = min(ans, n[key] // m[key])
+        
+        return ans if ans != sys.maxsize else 0
+===================================================================
+Time complexity = O(n+m)
+Space complexity = O(n+m)
