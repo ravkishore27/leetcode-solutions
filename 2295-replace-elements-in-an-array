@@ -1,0 +1,37 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-296/problems/replace-elements-in-an-array/
+
+===================================================================
+Constraints
+n == nums.length
+m == operations.length
+1 <= n, m <= 105
+All the values of nums are distinct.
+operations[i].length == 2
+1 <= nums[i], operations[i][0], operations[i][1] <= 106
+operations[i][0] will exist in nums when applying the ith operation.
+operations[i][1] will not exist in nums when applying the ith operation.
+
+===================================================================
+Explanation
+1. Keep dict for tracking index.
+2. Update the nums value at that index by refering to dict.
+
+
+===================================================================
+class Solution:
+    def arrayChange(self, nums: List[int], operations: List[List[int]]) -> List[int]:
+        n = len(nums)
+        m = {}
+        for i in range(n):
+            m[nums[i]] = i
+        
+        for x, y in operations:
+            m[y] = m[x]
+            nums[m[x]] = y
+            m[x] = -1
+            
+        return nums
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
