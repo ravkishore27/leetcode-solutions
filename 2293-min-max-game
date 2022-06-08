@@ -1,0 +1,29 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-296/problems/min-max-game/
+
+===================================================================
+Constraints
+1 <= nums.length <= 1024
+1 <= nums[i] <= 109
+nums.length is a power of 2.
+
+===================================================================
+Explanation
+1. Just follow the rules.
+
+===================================================================
+class Solution:
+    def minMaxGame(self, nums: List[int]) -> int:
+        while len(nums) > 1:
+            n_2 = len(nums) // 2
+            temp = []
+            for i in range(n_2):
+                if i % 2 == 0:
+                    temp.append( min(nums[2*i], nums[(2*i)+1]))
+                else:
+                    temp.append( max(nums[2*i], nums[(2*i)+1]))
+            nums = temp
+        return nums[0]
+===================================================================
+Time complexity = O(nlogn)
+Space complexity = O(n)
