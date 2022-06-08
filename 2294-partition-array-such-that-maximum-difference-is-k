@@ -1,0 +1,39 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-296/problems/partition-array-such-that-maximum-difference-is-k/
+
+===================================================================
+Constraints
+1 <= nums.length <= 105
+0 <= nums[i] <= 105
+0 <= k <= 105
+
+===================================================================
+Explanation
+1. Sort the nums.
+2. Slide a window to reach a point where the difference between the i and j elements is greater than k
+3. res += 1
+4. In the end check if you i is still in n-1 position, if yes, then res+= 1. Single element.
+
+===================================================================
+class Solution:
+class Solution:
+    def partitionArray(self, nums: List[int], k: int) -> int:
+        sorted_nums = sorted(nums)
+        if len(nums) == 1:
+            return 1
+        res = 0
+        i = 0
+        j = i + 1
+        n = len(sorted_nums)
+        while j < n:
+            while j < n and sorted_nums[j] - sorted_nums[i] <= k:
+                j += 1
+            res += 1
+            i = j
+            j = i + 1
+        if i == n - 1:
+            res += 1
+        return res
+===================================================================
+Time complexity = O(nlogn)
+Space complexity = O(n)
