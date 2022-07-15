@@ -1,0 +1,61 @@
+Problem:
+https://leetcode.com/problems/word-ladder/
+
+===================================================================
+1 <= beginWord.length <= 10
+endWord.length == beginWord.length
+1 <= wordList.length <= 5000
+wordList[i].length == beginWord.length
+beginWord, endWord, and wordList[i] consist of lowercase English letters.
+beginWord != endWord
+All the words in wordList are unique.
+
+===================================================================
+Explanation
+1.
+===================================================================
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        
+        n = len(beginWord)
+        
+        wordList = set(wordList)
+        
+        parent = dict()
+        depth = dict()
+        
+        parent[beginWord] = set()
+        depth [beginWord] = 1
+        
+        q = []
+        q.append(beginWord)
+        
+        found = False
+        
+        while q:
+            currWord = q.pop(0)
+
+            for i in range(n):
+                for j in range(97,123):
+                    nextLetter =  chr(j)
+                    nextWord = currWord[:i] + nextLetter + currWord[i+1:] 
+                    if nextWord in wordList:
+                        if nextWord in depth and depth[nextWord] != depth[currWord] + 1:
+                            continue
+                        if nextWord not in depth:
+                            depth[nextWord] = depth[currWord] + 1
+                        if nextWord not in parent:
+                            parent[nextWord] = set()
+
+                        if nextWord == endWord:
+                            parent[endWord].add(currWord)
+                            return depth[endWord]
+
+                        parent[nextWord].add(currWord)
+                        q.append(nextWord)
+                            
+        
+        return 0
+===================================================================
+Time complexity = O(n*10*26) ~ O(n)
+Space complexity = O(n)
