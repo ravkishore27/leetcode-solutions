@@ -1,0 +1,37 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-302/problems/query-kth-smallest-trimmed-number/
+
+===================================================================
+Constraints
+1 <= nums.length <= 100
+1 <= nums[i].length <= 100
+nums[i] consists of only digits.
+All nums[i].length are equal.
+1 <= queries.length <= 100
+queries[i].length == 2
+1 <= ki <= nums.length
+1 <= trimi <= nums[i].length
+
+===================================================================
+Explanation
+1. create new_nums [(trimed, index)..]
+2. sort them by trimmed element.
+3. Kth smallest index is the second element in the above tuple.
+
+===================================================================
+class Solution:
+
+    def smallestTrimmedNumbers(self, nums: List[str], queries: List[List[int]]) -> List[int]:
+        
+        def findKSmallest(new_nums, k):
+            return (sorted(new_nums)[k-1])
+        
+        n = len(nums[0])
+        res = []
+        for k, trim in queries:
+            new_nums = [(s[n-trim:],i) for i,s in enumerate(nums)]
+            res.append(findKSmallest(new_nums, k)[1])
+        return res
+===================================================================
+Time complexity = O(queries * nlogn)
+Space complexity = O(n)
