@@ -1,0 +1,53 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-304/problems/find-closest-node-to-given-two-nodes/
+
+===================================================================
+Constraints
+n == edges.length
+2 <= n <= 105
+-1 <= edges[i] < n
+edges[i] != i
+0 <= node1, node2 < n
+
+===================================================================
+Explanation
+1. Use dfs to find if cycle, or end of road.
+2. dist = [distance from first node, distance from second node]
+3. loop the dist and see the distance from both nodes for a given node.
+4. if self.res is -1 then assign the curr node.
+5. Otherwise, assign the curr node only if dist[self.res] (prev value) is greated than dist[d] curr node.
+
+===================================================================
+class Solution:
+    def closestMeetingNode(self, edges: List[int], node1: int, node2: int) -> int:
+        n = len(edges)
+        
+        self.res = -1
+        dist = [[-1,-1] for i in range(n)]
+        
+        def dfs(node, visited, d, index):
+            visited[node] = 1
+            dist[node][index] = d
+            next_node = edges[node]
+            if next_node == -1:
+                visited[node] = -1
+                return
+            if visited[next_node] == -1:
+                dfs(next_node, visited, d + 1, index)
+            visited[node] = -1
+        
+        visited = [-1 for i in range(n)]
+
+        dfs(node1, visited, 0, 0)
+        dfs(node2, visited, 0, 1)
+        
+        print(dist)
+        for i, d in enumerate(dist):
+            if d[0] != -1 and d[1] != -1:
+                if self.res == -1 or max(dist[self.res]) > max(d):
+                    self.res = i
+
+        return self.res
+===================================================================
+Time complexity = O(n)
+Space complexity = O(2n)
