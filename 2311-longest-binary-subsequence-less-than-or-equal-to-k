@@ -1,0 +1,39 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-298/problems/longest-binary-subsequence-less-than-or-equal-to-k/
+
+===================================================================
+Constraints
+1 <= s.length <= 1000
+s[i] is either '0' or '1'.
+1 <= k <= 109
+
+===================================================================
+Explanation
+1. The idea is to find the sequence that is less than or equal to k
+2. Then just add zeros.
+
+===================================================================
+class Solution:
+    def longestSubsequence(self, s: str, k: int) -> int:
+        
+        n = len(s)
+        res = 0
+        value = 0
+        index = 0
+        for i in range(n-1, -1, -1):
+            if s[i] == '0':
+                res += 1
+                index += 1
+                continue
+            next_value = value + int(math.pow(2,index))
+           
+            if next_value <= k:
+                value = next_value
+                res += 1
+            index +=1
+        
+        return res
+        
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
