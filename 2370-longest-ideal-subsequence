@@ -1,0 +1,30 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-305/problems/longest-ideal-subsequence/
+
+===================================================================
+Constraints
+1 <= s.length <= 105
+0 <= k <= 25
+s consists of lowercase English letters.
+
+===================================================================
+Explanation
+https://leetcode.com/problems/longest-ideal-subsequence/discuss/2390512/JavaC%2B%2BPython-DP-Solution
+
+===================================================================
+class Solution:
+    def longestIdealString(self, s: str, k: int) -> int:
+        n = len(s)
+        
+        dp = [0 for i in range(26)]
+        
+        for ch in s:
+            curr = ord(ch) - 97
+            low = 0 if curr - k < 0 else curr - k
+            high = 25 if curr + k > 25 else curr + k
+            dp[curr] = max(dp[low:high+1] ) + 1
+            
+        return max(dp)
+===================================================================
+Time complexity = O(n)
+Space complexity = O(26)
