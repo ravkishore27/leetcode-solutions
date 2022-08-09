@@ -1,0 +1,48 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-305/problems/check-if-there-is-a-valid-partition-for-the-array/
+
+===================================================================
+Constraints
+2 <= nums.length <= 105
+1 <= nums[i] <= 106
+===================================================================
+Explanation
+1. Dp Recursive Solution.
+2. For every i-th position of the current loop.
+3. Check if two and three next indexes conditions.
+4. Now dp recursive call the remaining array.
+5. Dp ensures you don't repeat again and again.
+
+===================================================================
+class Solution:
+    def validPartition(self, nums: List[int]) -> bool:
+        n = len(nums)
+        dp = [None for i in range(n)]
+        
+        def dpFind(i, nums, dp):
+            if i >= n:
+                return True
+            
+            if dp[i] is not None:
+                return dp[i]
+            
+            three, two = False, False
+            x = i + 2
+            if x < n:
+                if nums[i] + 1 == nums[i + 1] and nums[i + 1] + 1 == nums[i + 2]:
+                    three = True
+                elif nums[i] == nums[i+1] == nums[i+ 2]:
+                    three = True
+            x = i + 1
+            if x < n:
+                if nums[i] == nums[i+1]:
+                    two = True
+            
+            dp[i] = (three and dpFind(i + 3, nums, dp)) or (two and dpFind(i + 2, nums, dp))
+            # print(i,nums, three, two, dp[i])
+            return dp[i]
+        
+        return dpFind(0, nums, dp) 
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
