@@ -1,0 +1,39 @@
+Problem:
+https://leetcode.com/problems/find-pivot-index/
+
+===================================================================
+Constraints
+1 <= nums.length <= 104
+-1000 <= nums[i] <= 1000
+
+===================================================================
+Explanation
+1. Loop from 0 - n and n -> 0 (reverse)
+2. Add the previous index sum. First index would be zero and last also.
+3. Which ever has both same values. Return i
+===================================================================
+class Solution:
+    def pivotIndex(self, nums: List[int]) -> int:
+        
+        n = len(nums)
+        temp = [[] for i in range(n)]
+        
+        s = 0
+        for i in range(n):
+            temp[i].append(s)
+            s += nums[i]
+        
+        s = 0
+        for i in range(n-1,-1,-1):
+            temp[i].append(s)
+            s += nums[i]
+            
+        print(temp)
+        for i in range(n):
+            if temp[i][0] == temp[i][1]:
+                return i
+            
+        return -1
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
