@@ -1,0 +1,26 @@
+Problem:
+https://leetcode.com/problems/running-sum-of-1d-array/
+
+===================================================================
+Constraints
+1 <= nums.length <= 1000
+-10^6 <= nums[i] <= 10^6
+
+===================================================================
+Explanation
+1. add sum and replace nums[i]
+2. return nums
+
+===================================================================
+class Solution:
+    def runningSum(self, nums: List[int]) -> List[int]:
+        s = 0
+        
+        for i in range(len(nums)):
+            s += nums[i]
+            nums[i] = s
+            
+        return nums
+===================================================================
+Time complexity = O(n)
+Space complexity = O(1)
