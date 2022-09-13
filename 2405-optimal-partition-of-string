@@ -1,0 +1,30 @@
+Problem:
+https://leetcode.com/contest/weekly-contest-310/problems/optimal-partition-of-string/
+
+===================================================================
+Constraints
+1 <= s.length <= 105
+s consists of only English lowercase letters.
+
+===================================================================
+Explanation
+1. Loop and see if the current char is present in a set.
+2. If present, reset the set() and increase the count.
+3. return res + 1 (last substring in set())
+
+===================================================================
+class Solution:
+    def partitionString(self, s: str) -> int:
+        n = len(s)
+        
+        st = set()
+        res = 0
+        for i in range(n):
+            if s[i] in st:
+                res += 1
+                st = set()
+            st.add(s[i])
+        return res + 1
+===================================================================
+Time complexity = O(n)
+Space complexity = O(n)
